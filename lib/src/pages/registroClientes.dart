@@ -13,7 +13,9 @@ class RegistrarClientes extends StatefulWidget {
 
 class RegistrarClientesState extends State<RegistrarClientes>
     with TickerProviderStateMixin {
-  TextEditingController nicknameController = new TextEditingController();
+  bool _obscuredText = true;
+
+  TextEditingController mailController = new TextEditingController();
   TextEditingController nombreController = new TextEditingController();
   TextEditingController apController = new TextEditingController();
   TextEditingController amController = new TextEditingController();
@@ -29,13 +31,12 @@ class RegistrarClientesState extends State<RegistrarClientes>
 
   bool respuesta = false;
   int credito = 0;
-  String tipoCliente;
 
   void addClient() async {
     var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/addUser.php";
 
     final response = await http.post(url, body: {
-      "nombre_usuario": nicknameController.text,
+      "email": mailController.text,
       "nombre": nombreController.text,
       "apellido_paterno": apController.text,
       "apellido_materno": amController.text,
@@ -72,6 +73,8 @@ class RegistrarClientesState extends State<RegistrarClientes>
         CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
 
     _controller.forward();
+
+    print("Token a insertar: " + firebaseToken);
   }
 
   @override
@@ -93,6 +96,29 @@ class RegistrarClientesState extends State<RegistrarClientes>
             //Column(
             //children: <Widget>[
             //logo,
+            SizedBox(height: 10),
+            new TextFormField(
+              controller: mailController,
+              style: TextStyle(
+                color: Colors.red,
+              ),
+              decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(32.0),
+                    )),
+                icon: const Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
+                hintText: 'Correo electrónico',
+                /*enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(32.0),
+                    borderSide: BorderSide(color: Colors.orange, width: 2.0),
+                  ),*/
+              ),
+            ),
             SizedBox(height: 10),
             new TextFormField(
               controller: nombreController,
@@ -264,32 +290,31 @@ class RegistrarClientesState extends State<RegistrarClientes>
                 hintText: 'Número',
               ),
             ),
-            DropdownButton<String>(
-              items: [
-                DropdownMenuItem<String>(
-                  child: Text('A'),
-                  value: 'A',
-                ),
-                DropdownMenuItem<String>(
-                  child: Text('B'),
-                  value: 'B',
-                )
-              ],
-              onChanged: (String value) {
-                setState(() {
-                  tipoCliente = value;
-                });
-              },
-              hint: Text(
-                'Tipo de cliente',
-                style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+            new TextFormField(
+              controller: passController,
+              style: TextStyle(
+                color: Colors.red,
               ),
-              value: tipoCliente,
-              isExpanded: false,
-              style: TextStyle(color: Colors.red),
+              obscureText: _obscuredText,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                  borderRadius: BorderRadius.circular(32.0),
+                ),
+                suffixIcon: IconButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    setState(() {
+                      if (_obscuredText)
+                        _obscuredText = false;
+                      else
+                        _obscuredText = true;
+                    });
+                  },
+                  icon: Icon(Icons.lock),
+                ),
+                hintText: 'Contraseña',
+              ),
             ),
             SizedBox(height: 30),
             new ButtonTheme(
@@ -316,7 +341,7 @@ class RegistrarClientesState extends State<RegistrarClientes>
                       coloniaController.text == "" ||
                       calleController.text == "" ||
                       numeroController.text == "" ||
-                      tipoCliente == null)
+                      passController.text == "")
                     dialogo.emptyDialog(context);
                   else if (telefonoController.text.length > 10 ||
                       telefonoController.text.length < 10) {

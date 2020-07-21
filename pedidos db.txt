@@ -2,7 +2,7 @@ Tablas:
 CREATE TABLE IF NOT EXISTS usuarios
 (
     id 					INT AUTO_INCREMENT,
-    nombre_usuario		VARCHAR(30),
+    email		        VARCHAR(100) NOT NULL,
     nombre 			 	VARCHAR(30) NOT NULL,
     apellido_paterno 	VARCHAR(30) NOT NULL,
     apellido_materno 	VARCHAR(30) NOT NULL,
@@ -26,7 +26,7 @@ Procedimientos almacenados:
 DELIMITER //
 CREATE PROCEDURE insertar_usuario
 ( 
-    IN nickname		VARCHAR(30),
+    IN email_u		VARCHAR(100),
     IN nombre_u 	VARCHAR(30),
     IN apellido_p 	VARCHAR(30),
     IN apellido_m 	VARCHAR(30),
@@ -41,9 +41,9 @@ CREATE PROCEDURE insertar_usuario
     IN token		VARCHAR(200)
 )
 BEGIN
-	INSERT INTO usuarios (nombre_usuario, nombre, apellido_paterno, apellido_materno, telefono, estado, ciudad, colonia, calle, numero, pass, tipo_usuario, firebase_token)  VALUES
-	(nickname, nombre_u, apellido_p, apellido_m, tel, estado_u, ciudad_u, colonia_u, calle_u, numero_u, pass_u, tipo_u, token);
+	INSERT INTO usuarios (email, nombre, apellido_paterno, apellido_materno, telefono, estado, ciudad, colonia, calle, numero, pass, tipo_usuario, firebase_token)  VALUES
+	(email_u, nombre_u, apellido_p, apellido_m, tel, estado_u, ciudad_u, colonia_u, calle_u, numero_u, pass_u, tipo_u, token);
 END//
 DELIMITER ;
 
-CALL insertar_usuario("lando", "Luis Orlando", "Avila", "Garcia", "5564191682", "CDMX", "Ciudad de México", "Las Cruces", "Ahuatla", "S/N", "landowolf10",  "Cliente", "YGAd87897davguf78JDf8567")
+CALL insertar_usuario("orlando.avilag@hotmail.com", "Luis Orlando", "Avila", "Garcia", "5564191682", "CDMX", "Ciudad de México", "Las Cruces", "Ahuatla", "S/N", "landowolf10",  "Cliente", "YGAd87897davguf78JDf8567")

@@ -61,17 +61,18 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         final response = await http.post(
             "https://pruebasbotanax.000webhostapp.com/Pedidos/login.php",
             body: {
-              "nombre_usuario": user.text,
+              "email": user.text,
               "pass": pass.text,
             });
 
         print("Response: " + response.statusCode.toString());
+        print(response.body);
 
         if (response.statusCode == 200) {
           var datauser = json.decode(response.body);
 
           if (!datauser.isEmpty) {
-            if (datauser[0]["nombre_usuario"] == user.text &&
+            if (datauser[0]["email"] == user.text &&
                 datauser[0]["pass"] == pass.text &&
                 datauser[0]["tipo_usuario"] == "Cliente") {
               idUsuario = int.parse(datauser[0]["id"]);
@@ -206,7 +207,6 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       height: 48,
       width: _width,
       child: RaisedButton(
-        animationDuration: Duration(milliseconds: 1000),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),

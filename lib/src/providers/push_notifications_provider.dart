@@ -21,6 +21,7 @@ class PushNotificatinProvider {
       print(firebaseToken);
 
       //dBEx7pHR6JI:APA91bE7rlvTC6QAH5eFON-eMB84oxVISEEk5q6LQBepIqf3EWUVpHKvJb4ATTWaxnf0OR_PpWpZQJn1-vT0jaPIwm-5QSH6C4EfvsmNtzzA3ZCn76w1KcqY6aTk-CGf0N3EuSE23j8V
+      //cXN_ooG9vhg:APA91bEeYsjkAW_rPgoPUXBPN6HFFXiq4SzVosz84czLU_rCNxUpHA-9UEGwJVVgq2vcS6mYxw6_hsm691YOAnChhAAuo4DOBxzggbNn1y5Tn4rAoVWvy_RqIPUXcd4IFk6lQcTQyY0z
     });
 
     _firebaseMessaging.configure(onMessage: (info) async {

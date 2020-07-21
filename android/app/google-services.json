@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "794573276401",
+    "firebase_url": "https://flutter-pedidos.firebaseio.com",
+    "project_id": "flutter-pedidos",
+    "storage_bucket": "flutter-pedidos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794573276401:android:07a5f0f810632ed86f1550",
+        "android_client_info": {
+          "package_name": "com.example.pedidos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794573276401-3i73358nvcsbprhvu4rccp71roeeu82e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pedidos",
+            "certificate_hash": "219cdffffe55f7fe3f62141419718c958d4db588"
+          }
+        },
+        {
+          "client_id": "794573276401-46hnjb3v0rqa557hn91mo0i8mgt23oou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKRyDdvH4teNlDZ29UpzHdBmV32AjD6vA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794573276401-46hnjb3v0rqa557hn91mo0i8mgt23oou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

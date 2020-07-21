@@ -1,0 +1,49 @@
+Tablas:
+CREATE TABLE IF NOT EXISTS usuarios
+(
+    id 					INT AUTO_INCREMENT,
+    nombre_usuario		VARCHAR(30),
+    nombre 			 	VARCHAR(30) NOT NULL,
+    apellido_paterno 	VARCHAR(30) NOT NULL,
+    apellido_materno 	VARCHAR(30) NOT NULL,
+    telefono 			VARCHAR(10),
+    estado				VARCHAR(30),
+    ciudad				VARCHAR(30),
+    colonia				VARCHAR(30),
+    calle				VARCHAR(30),
+    numero				VARCHAR(30),
+    pass				VARCHAR(20),
+    tipo_usuario		VARCHAR(30),
+    firebase_token		VARCHAR(200),
+    PRIMARY KEY (id)
+);
+
+
+
+Procedimientos almacenados:
+1. Procedimiento almacenado para insertar en la tabla usuarios.
+
+DELIMITER //
+CREATE PROCEDURE insertar_usuario
+( 
+    IN nickname		VARCHAR(30),
+    IN nombre_u 	VARCHAR(30),
+    IN apellido_p 	VARCHAR(30),
+    IN apellido_m 	VARCHAR(30),
+    IN tel 			VARCHAR(10), 
+    IN estado_u 	VARCHAR(30), 
+    IN ciudad_u 	VARCHAR(30), 
+    IN colonia_u 	VARCHAR(30),
+    IN calle_u		VARCHAR(30),
+    IN numero_u 	VARCHAR(30),
+    IN pass_u		VARCHAR(20),
+    IN tipo_u		VARCHAR(30),
+    IN token		VARCHAR(200)
+)
+BEGIN
+	INSERT INTO usuarios (nombre_usuario, nombre, apellido_paterno, apellido_materno, telefono, estado, ciudad, colonia, calle, numero, pass, tipo_usuario, firebase_token)  VALUES
+	(nickname, nombre_u, apellido_p, apellido_m, tel, estado_u, ciudad_u, colonia_u, calle_u, numero_u, pass_u, tipo_u, token);
+END//
+DELIMITER ;
+
+CALL insertar_usuario("lando", "Luis Orlando", "Avila", "Garcia", "5564191682", "CDMX", "Ciudad de México", "Las Cruces", "Ahuatla", "S/N", "landowolf10",  "Cliente", "YGAd87897davguf78JDf8567")

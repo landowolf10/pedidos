@@ -21,8 +21,38 @@ CREATE TABLE IF NOT EXISTS usuarios
 
 
 Procedimientos almacenados:
-1. Procedimiento almacenado para insertar en la tabla usuarios.
+1. Procedimiento almacenado para iniciar sesión y verificar token del dispositivo.
+DELIMITER //
+CREATE PROCEDURE login
+( 
+    IN email_u	VARCHAR(100),
+    IN pass_u 	VARCHAR(20),
+    IN token	VARCHAR(200)
+)
+BEGIN
+	SELECT * 
+    FROM usuarios
+    WHERE email = email_u AND pass = pass_u;
+    
+    IF NOT EXISTS
+    (
+    	SELECT u.firebase_token
+        FROM usuarios AS u
+        WHERE email = email_u AND pass = pass_u
+    ) THEN
+    	INSERT INTO usuarios (email, pass, firebase_token)  VALUES
+		(email_u, pass_u, token);
+    ELSE
+    	UPDATE usuarios SET firebase_token = token
+        WHERE email = email_u AND pass = pass_u;
+	END IF;
+END//
+DELIMITER ;
 
+CALL login('orlando.avilag@hotmail.com', 'landowolf10', 'cXN_ooG9vhg:APA91bEeYsjkAW_rPgoPUXBPN6HFFXiq4SzVosz84czLU_rCNxUpHA-9UEGwJVVgq2vcS6mYxw6_hsm691YOAnChhAAuo4DOBxzggbNn1y5Tn4rAoVWvy_RqIPUXcd4IFk6lQcTQyY0z')
+
+
+2. Procedimiento almacenado para insertar en la tabla usuarios.
 DELIMITER //
 CREATE PROCEDURE insertar_usuario
 ( 

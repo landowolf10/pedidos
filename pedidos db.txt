@@ -19,6 +19,22 @@ CREATE TABLE IF NOT EXISTS usuarios
 );
 
 
+CREATE TABLE IF NOT EXISTS status_pedido
+(
+    id 					INT AUTO_INCREMENT,
+    pedido_realizado	VARCHAR(500) NOT NULL,
+    total_pagar         DECIMAL(10, 2) NOT NULL,
+    id_cliente			INT NOT NULL,
+    nombre_cliente		VARCHAR(100) NOT NULL,
+    telefono_cliente 	VARCHAR(10)  NOT NULL,
+    colonia				VARCHAR(30)  NOT NULL,
+    calle				VARCHAR(30)  NOT NULL,
+    numero				VARCHAR(30)  NOT NULL,
+    estatus				INT,
+    PRIMARY KEY (id)
+);
+
+
 
 Procedimientos almacenados:
 1. Procedimiento almacenado para iniciar sesión y verificar token del dispositivo.
@@ -77,3 +93,43 @@ END//
 DELIMITER ;
 
 CALL insertar_usuario("orlando.avilag@hotmail.com", "Luis Orlando", "Avila", "Garcia", "5564191682", "CDMX", "Ciudad de México", "Las Cruces", "Ahuatla", "S/N", "landowolf10",  "Cliente", "YGAd87897davguf78JDf8567")
+
+
+
+3. Procedimiento almacenado para realizar un pedido.
+DELIMITER //
+CREATE PROCEDURE realizar_pedido
+( 
+    IN pedido		VARCHAR(500),
+    IN total		DECIMAL(10, 2),
+    IN id_c			INT,
+    IN nombre 		VARCHAR(100),
+    IN telefono		VARCHAR(10),
+    IN colonia_c	VARCHAR(30),
+    IN calle_c		VARCHAR(30),
+    IN numero_c		VARCHAR(30),
+    IN estatus_p	INT
+)
+BEGIN
+	INSERT INTO status_pedido(pedido_realizado, total_pagar, id_cliente, nombre_cliente, telefono_cliente, colonia, calle, numero, estatus)
+    VALUES(pedido, total, id_c, nombre, telefono, colonia_c, calle_c, numero_c, estatus_p);
+END//
+DELIMITER ;
+
+
+CALL realizar_pedido('Hamburguesa con papas, Yoli de 600 ml', 125, 1, 'Luis Orlando Avila Garcia', '5564191682', 'Las Cruces', 'Ahuatla', 'S/N', 0)
+
+
+
+4. Procedimiento almacenado para actualizar el status del pedido.
+DELIMITER //
+CREATE PROCEDURE actualizar_pedido
+( 
+    IN id_c   		INT,
+    IN estatus_p	INT
+)
+BEGIN
+	UPDATE status_pedido SET estatus = estatus_p
+    WHERE id_cliente = id_c;
+END//
+DELIMITER ;

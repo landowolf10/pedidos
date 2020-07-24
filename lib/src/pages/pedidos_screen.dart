@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
 
 class Pedidos extends StatefulWidget {
   @override
@@ -7,6 +8,16 @@ class Pedidos extends StatefulWidget {
 }
 
 class PedidosState extends State<Pedidos> {
+    void push() async {
+    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/push.php";
+
+    final response = await http.post(url, body: {
+      "mensaje": "Hola"
+    });
+
+    print(response.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     /*final logo = Hero(
@@ -33,6 +44,7 @@ class PedidosState extends State<Pedidos> {
                     child: Text("Realizar pedido",
                         style: TextStyle(color: Colors.white)),
                     onPressed: () {
+                      push();
                       /*Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Funciones()),

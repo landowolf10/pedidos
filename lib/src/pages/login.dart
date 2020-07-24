@@ -63,6 +63,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             body: {
               "email": user.text,
               "pass": pass.text,
+              "firebase_token": firebaseToken
             });
 
         print("Response: " + response.statusCode.toString());

@@ -42,9 +42,11 @@ class ProductosState extends State<Productos> with SingleTickerProviderStateMixi
       //print("Número de platillos: " + productsData[0]["nombre"]); 
       print("Respuesta: " + response.body);
 
-      listaProductos.add(json.decode(response.body));
+      List<dynamic> listaProductos = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
 
-      print(listaProductos);
+      print(listaProductos[0]);
 
       //return listaProductos.map((product) => new Products.fromJson(product)).toList();
     }

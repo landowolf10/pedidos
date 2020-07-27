@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'package:pedidos/src/pages/login.dart';
 
 class Pedidos extends StatefulWidget {
   @override
@@ -8,14 +9,31 @@ class Pedidos extends StatefulWidget {
 }
 
 class PedidosState extends State<Pedidos> {
-    void push() async {
-    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/push.php";
+  void realizarPedido() async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/realizarPedido.php";
 
     final response = await http.post(url, body: {
-      "mensaje": "Hola"
+      "pedido": "Rib eye 300g termino medio",
+      "total": 225.toString(),
+      "id_c": 1.toString(),
+      "nombre": nombreUsuario,
+      "telefono": telefonoUsuario,
+      "colonia": "Las Cruces",
+      "calle": "Ahuatla",
+      "numero": "S/N",
+      "estatus_p": 0.toString()
     });
 
-    print(response.body);
+    print("Respuesta: " + response.body);
+  }
+
+  void sendPush() async {
+    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/push.php";
+
+    final response = await http.post(url, body: {"": ""});
+
+    print("Respuesta: " + response.body);
   }
 
   @override
@@ -43,8 +61,10 @@ class PedidosState extends State<Pedidos> {
                     color: Colors.red,
                     child: Text("Realizar pedido",
                         style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      push();
+                    onPressed: () async {
+                      realizarPedido();
+                      sendPush();
+
                       /*Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Funciones()),

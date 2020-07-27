@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dialogos.dart';
 
 int idUsuario, state = 0;
-String tipoUsuario, nombreUsuario;
+String tipoUsuario, nombreUsuario, telefonoUsuario;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -66,24 +66,27 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               "firebase_token": firebaseToken
             });
 
-        print("Response: " + response.statusCode.toString());
-        print(response.body);
+        //print("Response: " + response.statusCode.toString());
+        //print(response.body);
 
         if (response.statusCode == 200) {
           var datauser = json.decode(response.body);
+
+          print(datauser);
 
           if (!datauser.isEmpty) {
             if (datauser[0]["email"] == user.text &&
                 datauser[0]["pass"] == pass.text &&
                 datauser[0]["tipo_usuario"] == "Cliente") {
               idUsuario = int.parse(datauser[0]["id"]);
-              tipoUsuario = datauser[0]["tipo_usuario"];
 
               nombreUsuario = datauser[0]["nombre"] +
                   " " +
                   datauser[0]["apellido_paterno"] +
                   " " +
                   datauser[0]["apellido_materno"];
+
+              telefonoUsuario = datauser[0]["telefono"];
 
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (BuildContext ctx) => Pedidos()));

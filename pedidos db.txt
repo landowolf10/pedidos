@@ -35,6 +35,16 @@ CREATE TABLE IF NOT EXISTS status_pedido
 );
 
 
+CREATE TABLE IF NOT EXISTS productos
+(
+    id 			INT AUTO_INCREMENT,
+    nombre		VARCHAR(300)   NOT NULL,
+    categoria   VARCHAR(100)   NOT NULL,
+    precio		DECIMAL(10, 2) NOT NULL,
+    imagen		VARCHAR(200)   NOT NULL,
+    PRIMARY KEY (id)
+);
+
 
 Procedimientos almacenados:
 1. Procedimiento almacenado para iniciar sesión y verificar token del dispositivo.
@@ -133,3 +143,22 @@ BEGIN
     WHERE id_cliente = id_c;
 END//
 DELIMITER ;
+
+
+
+5. Procedimiento almacenado para registrar productos.
+DELIMITER //
+CREATE PROCEDURE insertar_producto
+( 
+    IN nombre_producto		VARCHAR(300),
+    IN categoria_producto	VARCHAR(100),
+    IN precio_producto		DECIMAL(10, 2),
+    IN imagen_producto 		VARCHAR(200)
+)
+BEGIN
+	INSERT INTO productos(nombre, categoria, precio, imagen)
+    VALUES(nombre_producto, categoria_producto, precio_producto, imagen_producto);
+END//
+DELIMITER ;
+
+CALL insertar_producto('Yoli', 'Bebida', 12, 'imagen.jpg')

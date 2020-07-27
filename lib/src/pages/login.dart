@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pedidos/src/pages/pedidos_screen.dart';
+import 'package:pedidos/src/pages/productos.dart';
 import 'package:pedidos/src/pages/registroClientes.dart';
 import 'package:pedidos/src/providers/push_notifications_provider.dart';
 import 'dart:io';
@@ -89,7 +89,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               telefonoUsuario = datauser[0]["telefono"];
 
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (BuildContext ctx) => Pedidos()));
+                  MaterialPageRoute(builder: (BuildContext ctx) => Productos()));
             } else {
               Dialogos dialog = new Dialogos();
               dialog.noPermissionDialog(context);

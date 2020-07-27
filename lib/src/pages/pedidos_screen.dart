@@ -9,6 +9,20 @@ class Pedidos extends StatefulWidget {
 }
 
 class PedidosState extends State<Pedidos> {
+  /*void insertarProducto() async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/addProduct.php";
+
+    final response = await http.post(url, body: {
+      "nombre": "Tiritas de pescado",
+      "categoria": "Platillos principales",
+      "precio": 100.00.toString(),
+      "imagen": "tiritas.jpg"
+    });
+
+    print("Respuesta: " + response.body);
+  }*/
+
   void realizarPedido() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/realizarPedido.php";
@@ -62,6 +76,7 @@ class PedidosState extends State<Pedidos> {
                     child: Text("Realizar pedido",
                         style: TextStyle(color: Colors.white)),
                     onPressed: () async {
+                      //insertarProducto();
                       realizarPedido();
                       sendPush();
 

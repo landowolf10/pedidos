@@ -13,7 +13,7 @@ class Productos extends StatefulWidget {
 class ProductosState extends State<Productos>
     with SingleTickerProviderStateMixin {
   TabController tabController;
-  int tabIndex = 0;
+  int tabIndex = 0, elements = 0;
 
   List<dynamic> listaProductos;
 
@@ -29,7 +29,10 @@ class ProductosState extends State<Productos>
     //tabIndex = 0;
 
     //initialization();
-    obtenerPlatillos(1);
+    mostrarPlatillos(1);
+    mostrarBebidas(2);
+
+    //print("Lista de productos: " + listOfProducts.toString());
 
     tabController = TabController(length: 4, vsync: this, initialIndex: 0);
 
@@ -41,6 +44,22 @@ class ProductosState extends State<Productos>
   /*initialization() async {
     await mostrarPlatillos(1);
   }*/
+
+  getElement(){
+    if(tabIndex == 0)
+      elements = listaEntradas.length;
+      
+    if(tabIndex == 1)
+      elements = listaPlatillos.length;
+
+    if(tabIndex == 2)
+      elements = listaBebidas.length;
+
+    if(tabIndex == 3)
+      elements = listaPostres.length;
+
+    print("Cantidad de elementos: " + elements.toString());
+  }
 
   mostrarEntradas(int index) async {
     var url =
@@ -60,39 +79,46 @@ class ProductosState extends State<Productos>
       for (int i = 0; i < listaProductos.length; i++)
         listaEntradas.add(listaProductos[i]["nombre"]);
 
+      getElement();
+
       print(listaEntradas);
     }
   }
 
-  Future<List<Products>> obtenerPlatillos(int index) async {
+  mostrarPlatillos(int index) async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
 
     final response =
         await http.post(url, body: {"indice_categoria": index.toString()});
 
+
+    print(response.body);
+
     if (response.statusCode == 200) {
-      print(response.body);
       //print("Número de platillos: " + productsData[0]["nombre"])
-      listaProductos = json
+      List<dynamic> listaProductos = json
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
 
-      listOfProducts = listaProductos.map<Products>((json) {
-        return Products.fromJson(json);
-      }).toList();
+      setState(() {
+        int counter = 0;
+        listaPlatillos.clear();
+
+        for (int i = 0; i < listaProductos.length; i++)
+          if(listaProductos[i]["categoria"] == "Platillo")
+            counter++;
+
+        print(counter);
+
+        for (int i = 0; i < counter; i++)
+          listaPlatillos.add(listaProductos[i]["nombre"]);
+
+        getElement();
+
+        print("Lista de platillos: " + listaPlatillos.toString());
+      });
     }
-  }
-
-  mostrarPlatillos() {
-    //listaPlatillos.clear();
-
-    print("Número de platillos: " + listaPlatillos.length.toString());
-
-    for (int i = 0; i < listaProductos.length; i++)
-      listaPlatillos.add(listaProductos[i]["nombre"]);
-
-    print(listaPlatillos);
   }
 
   mostrarBebidas(int index) async {
@@ -102,18 +128,29 @@ class ProductosState extends State<Productos>
     final response =
         await http.post(url, body: {"indice_categoria": index.toString()});
 
+    print(response.body);
+
     if (response.statusCode == 200) {
       //print("Número de platillos: " + productsData[0]["nombre"])
       List<dynamic> listaProductos = json
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
 
+      int counter = 0;
       listaBebidas.clear();
 
       for (int i = 0; i < listaProductos.length; i++)
+        if(listaProductos[i]["categoria"] == "Bebida")
+          counter++;
+
+      print(counter);
+
+      for (int i = 0; i < counter; i++)
         listaBebidas.add(listaProductos[i]["nombre"]);
 
-      print(listaBebidas);
+      getElement();
+
+      print("Lista de bebidas: " + listaBebidas.toString());
     }
   }
 
@@ -135,35 +172,22 @@ class ProductosState extends State<Productos>
       for (int i = 0; i < listaProductos.length; i++)
         listaPostres.add(listaProductos[i]["nombre"]);
 
+      getElement();
+
       print(listaPostres);
     }
   }
 
-  Widget _buildList({String key, List<String> producto}) {
-    //print("Número de platillos: " + listaPlatillos.length.toString());
-
-    return FutureBuilder<List<Products>>(
-      future: obtenerPlatillos(tabIndex),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          for (var i = 0; i < snapshot.data.length; i++)
-            return Text(snapshot.data[i].nombreProducto);
-          //return Text(snapshot.data.posts[1].name);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-
-        // By default, show a loading spinner
-        return CircularProgressIndicator();
-      },
-    );
-
-    /*return ListView.builder(
+  Widget _buildList({String key, List<String> producto, int elementos}) {
+    return ListView.builder(
       key: PageStorageKey(key),
-      itemCount: listaPlatillos.length,
+      itemCount: elementos,
       itemBuilder: (_, index) => ListTile(title: Text(producto[index])),
-    );*/
+    );
   }
+
+    
+
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +227,7 @@ class ProductosState extends State<Productos>
 
                     if (tabIndex == 0) mostrarEntradas(tabIndex);
 
-                    if (tabIndex == 1) mostrarPlatillos();
+                    if (tabIndex == 1) mostrarPlatillos(tabIndex);
 
                     if (tabIndex == 2) mostrarBebidas(tabIndex);
 
@@ -215,13 +239,29 @@ class ProductosState extends State<Productos>
                 Expanded(
                   child: TabBarView(controller: tabController, children: [
                     Platillos(),
-                    _buildList(key: "key1", producto: listaPlatillos),
-                    _buildList(key: "key2", producto: listaBebidas),
+                    _buildList(key: "key1", producto: listaPlatillos, elementos: elements),
+                    _buildList(key: "key2", producto: listaBebidas, elementos: elements),
                     Platillos()
                   ]),
+                ),
+                ButtonTheme(
+                  minWidth: 200.0,
+                  height: 44.0,
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.red,
+                      child: Text(
+                        'Ir al carrito',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      onPressed: () {}),
                 )
               ],
+              
             ),
+            
           ),
         ],
       ),

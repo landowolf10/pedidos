@@ -173,25 +173,25 @@ CREATE PROCEDURE mostrar_productos
 )
 BEGIN
 	IF (indice_categoria = 0) THEN
-    	SELECT p.nombre, p.precio, p.imagen
+    	SELECT p.nombre, p.precio, p.categoria, p.imagen
         FROM productos AS p
         WHERE p.categoria = 'Entrada';
     END IF;
     
     IF (indice_categoria = 1) THEN
-    	SELECT p.nombre, p.precio, p.imagen
+    	SELECT p.nombre, p.precio, p.categoria, p.imagen
         FROM productos AS p
         WHERE p.categoria = 'Platillo';
     END IF;
     
     IF (indice_categoria = 2) THEN
-    	SELECT p.nombre, p.precio, p.imagen
+    	SELECT p.nombre, p.precio, p.categoria, p.imagen
         FROM productos AS p
         WHERE p.categoria = 'Bebida';
     END IF;
     
     IF (indice_categoria = 3) THEN
-    	SELECT p.nombre, p.precio, p.imagen
+    	SELECT p.nombre, p.precio, p.categoria, p.imagen
         FROM productos AS p
         WHERE p.categoria = 'Postre';
     END IF;

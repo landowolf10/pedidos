@@ -10,75 +10,160 @@ class Productos extends StatefulWidget {
   ProductosState createState() => new ProductosState();
 }
 
-class ProductosState extends State<Productos> with SingleTickerProviderStateMixin {
+class ProductosState extends State<Productos>
+    with SingleTickerProviderStateMixin {
   TabController tabController;
   int tabIndex = 0;
-  List<String> listaProductos = new List<String>();
+
+  List<dynamic> listaProductos;
+
+  List<Products> listOfProducts;
+
+  List<String> listaEntradas = new List<String>();
+  List<String> listaPlatillos = new List<String>();
+  List<String> listaBebidas = new List<String>();
+  List<String> listaPostres = new List<String>();
 
   @override
   void initState() {
     //tabIndex = 0;
 
-    mostrarProductos(tabIndex);
+    //initialization();
+    obtenerPlatillos(1);
 
-    //tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    tabController = TabController(length: 4, vsync: this, initialIndex: 0);
 
-    print(tabIndex);
+    //print(tabIndex);
 
     super.initState();
   }
 
-  mostrarProductos(int index) async {
+  /*initialization() async {
+    await mostrarPlatillos(1);
+  }*/
+
+  mostrarEntradas(int index) async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
 
-    final response = await http.post(url, body: {
-      "indice_categoria": index.toString()
-    });
+    final response =
+        await http.post(url, body: {"indice_categoria": index.toString()});
 
-    if(response.statusCode == 200)
-    {
-
-      //print("Número de platillos: " + productsData[0]["nombre"]); 
-      print("Respuesta: " + response.body);
-
+    if (response.statusCode == 200) {
+      //print("Número de platillos: " + productsData[0]["nombre"])
       List<dynamic> listaProductos = json
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
 
-      print(listaProductos[0]);
+      listaEntradas.clear();
 
-      //return listaProductos.map((product) => new Products.fromJson(product)).toList();
+      for (int i = 0; i < listaProductos.length; i++)
+        listaEntradas.add(listaProductos[i]["nombre"]);
+
+      print(listaEntradas);
     }
   }
 
-  /*ListView productsListView(data) {
-    return ListView.builder(
-      itemCount: data.length,
-      itemBuilder: (BuildContext context, int index) {
-        print(data[index].nombreProducto + " " + data[index].precioProducto);
-        return _tile(data[index].nombreProducto, data[index].precioProducto);
-      }
-    );
+  Future<List<Products>> obtenerPlatillos(int index) async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
+
+    final response =
+        await http.post(url, body: {"indice_categoria": index.toString()});
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      //print("Número de platillos: " + productsData[0]["nombre"])
+      listaProductos = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
+
+      listOfProducts = listaProductos.map<Products>((json) {
+        return Products.fromJson(json);
+      }).toList();
+    }
   }
 
-  ListTile _tile(String title, String subtitle) => ListTile(
-    title: Text(title,
-    style: TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 20,
-    )),
-    subtitle: Text(subtitle)
-  );*/
+  mostrarPlatillos() {
+    //listaPlatillos.clear();
 
-  Widget _buildList(data) {
-  return ListView.builder(
-    //itemBuilder: (_, i) => ListTile(title: Text("${i}")),
+    print("Número de platillos: " + listaPlatillos.length.toString());
 
-    itemCount: data.length,
-    itemBuilder: (context, index) => ListTile(title: Text(data[index].nombreProducto))
-  );
-}
+    for (int i = 0; i < listaProductos.length; i++)
+      listaPlatillos.add(listaProductos[i]["nombre"]);
+
+    print(listaPlatillos);
+  }
+
+  mostrarBebidas(int index) async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
+
+    final response =
+        await http.post(url, body: {"indice_categoria": index.toString()});
+
+    if (response.statusCode == 200) {
+      //print("Número de platillos: " + productsData[0]["nombre"])
+      List<dynamic> listaProductos = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
+
+      listaBebidas.clear();
+
+      for (int i = 0; i < listaProductos.length; i++)
+        listaBebidas.add(listaProductos[i]["nombre"]);
+
+      print(listaBebidas);
+    }
+  }
+
+  mostrarPostres(int index) async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
+
+    final response =
+        await http.post(url, body: {"indice_categoria": index.toString()});
+
+    if (response.statusCode == 200) {
+      //print("Número de platillos: " + productsData[0]["nombre"])
+      List<dynamic> listaProductos = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
+
+      listaPostres.clear();
+
+      for (int i = 0; i < listaProductos.length; i++)
+        listaPostres.add(listaProductos[i]["nombre"]);
+
+      print(listaPostres);
+    }
+  }
+
+  Widget _buildList({String key, List<String> producto}) {
+    //print("Número de platillos: " + listaPlatillos.length.toString());
+
+    return FutureBuilder<List<Products>>(
+      future: obtenerPlatillos(tabIndex),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          for (var i = 0; i < snapshot.data.length; i++)
+            return Text(snapshot.data[i].nombreProducto);
+          //return Text(snapshot.data.posts[1].name);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        // By default, show a loading spinner
+        return CircularProgressIndicator();
+      },
+    );
+
+    /*return ListView.builder(
+      key: PageStorageKey(key),
+      itemCount: listaPlatillos.length,
+      itemBuilder: (_, index) => ListTile(title: Text(producto[index])),
+    );*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,91 +177,137 @@ class ProductosState extends State<Productos> with SingleTickerProviderStateMixi
         children: <Widget>[
           Container(
             height: 350.0,
+            color: Colors.blue,
             child: Column(
               children: <Widget>[
-                Flexible(
-                  child: DefaultTabController(
-                    length: 4, 
-                    child: Scaffold(
-                      appBar: AppBar(
-                        title: Center(child:Text('Arme su pedido')),
-                        bottom: TabBar(
-                          tabs: [
-                            Tab(text: "Entradas", ),
-                            Tab(text: "Platillos",),
-                            Tab(text: "Bebidas",),
-                            Tab(text: "Postres", ),
-                          ],
-                          onTap: (value){
-                            tabIndex = value;
-
-                            //if(tabIndex == 1)
-                              mostrarProductos(tabIndex);
-
-                            /*if(tabIndex == 2)
-                              mostrarProductos(tabIndex);*/
-
-                            print(tabIndex);
-                          },
-                        ),
-                      ),
-                      body: TabBarView(
-                        children: [
-                          /*FutureBuilder<List<Products>>(
-                            future: mostrarProductos(tabIndex),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                List<Products> data = snapshot.data;
-
-                                return _buildList(data);
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              }
-                              return CircularProgressIndicator();
-                            },
-                          )*/
-                          /*ListView(
-                            children: <Widget>[
-                              ListTile(title: Text("Entradas")),
-                              ListTile(title: Text("Platillos")),
-                              ListTile(title: Text("Bebidas")),
-                              ListTile(title: Text("Postres")),
-                            ],
-                          ),*/
-                          Text("Entradas"),
-                          Text("Platillos fuertes"),
-                          Text("Bebidas"),
-                          Text("Postres")
-
-                          //_buildList(data)
-                        ],
-                      )
-                    )
-                  )
-                ),
-                ButtonTheme(
-                  minWidth: 200.0,
-                  height: 44.0,
-                  child: RaisedButton
-                  (
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                TabBar(
+                  unselectedLabelColor: Colors.blue[100],
+                  indicator: BoxDecoration(color: Colors.lightBlue),
+                  controller: tabController,
+                  tabs: <Widget>[
+                    Tab(
+                      text: "Entradas",
                     ),
-                    color: Colors.red,
-                    child: Text(
-                      'Ir al carrito',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),  
-                    onPressed: (){
-                      
-                    }
-                  ),
+                    Tab(
+                      text: "Platillos",
+                    ),
+                    Tab(
+                      text: "Bebidas",
+                    ),
+                    Tab(
+                      text: "Postres",
+                    ),
+                  ],
+                  onTap: (value) {
+                    tabIndex = value;
+
+                    if (tabIndex == 0) mostrarEntradas(tabIndex);
+
+                    if (tabIndex == 1) mostrarPlatillos();
+
+                    if (tabIndex == 2) mostrarBebidas(tabIndex);
+
+                    if (tabIndex == 3) mostrarPostres(tabIndex);
+
+                    print(tabIndex);
+                  },
+                ),
+                Expanded(
+                  child: TabBarView(controller: tabController, children: [
+                    Platillos(),
+                    _buildList(key: "key1", producto: listaPlatillos),
+                    _buildList(key: "key2", producto: listaBebidas),
+                    Platillos()
+                  ]),
                 )
               ],
             ),
           ),
         ],
       ),
+      /*body: ListView(
+        children: <Widget>[
+          Container(
+            height: 350.0,
+            child: Column(
+              children: <Widget>[
+                Flexible(
+                    child: DefaultTabController(
+                        length: 4,
+                        child: Scaffold(
+                            appBar: AppBar(
+                              title: Center(child: Text('Arme su pedido')),
+                              bottom: TabBar(
+                                controller: tabController,
+                                tabs: [
+                                  Tab(
+                                    text: "Entradas",
+                                  ),
+                                  Tab(
+                                    text: "Platillos",
+                                  ),
+                                  Tab(
+                                    text: "Bebidas",
+                                  ),
+                                  Tab(
+                                    text: "Postres",
+                                  ),
+                                ],
+                                onTap: (value) {
+                                  tabIndex = value;
+
+                                  if (tabIndex == 0) mostrarEntradas(tabIndex);
+
+                                  if (tabIndex == 1) mostrarPlatillos(tabIndex);
+
+                                  if (tabIndex == 2) mostrarBebidas(tabIndex);
+
+                                  if (tabIndex == 3) mostrarPostres(tabIndex);
+
+                                  print(tabIndex);
+                                },
+                              ),
+                            ),
+                            body: TabBarView(
+                              controller: tabController,
+                              children: [
+                                Column(
+                                  children: <Widget>[
+                                    ListView(
+                                      children: <Widget>[
+                                        Platillos(),
+                                        Platillos(),
+                                        Platillos(),
+                                        Platillos(),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                                /*Text("Entradas"),
+                                Text(listaPlatillos.toString()),
+                                Text("Bebidas"),
+                                Text("Postres")*/
+                              ],
+                            )))),
+                ButtonTheme(
+                  minWidth: 200.0,
+                  height: 44.0,
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.red,
+                      child: Text(
+                        'Ir al carrito',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      onPressed: () {}),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),*/
     );
 
     /*return MaterialApp(
@@ -219,5 +350,44 @@ class ProductosState extends State<Productos> with SingleTickerProviderStateMixi
         ),
       ),
     );*/
+  }
+}
+
+class Platillos extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return ListView(
+      children: <Widget>[
+        Card(
+          child: Container(
+            height: 200.0,
+            alignment: Alignment.center,
+            child: Text("Entradas"),
+          ),
+        ),
+        Card(
+          child: Container(
+            height: 200.0,
+            alignment: Alignment.center,
+            child: Text("Platillos"),
+          ),
+        ),
+        Card(
+          child: Container(
+            height: 200.0,
+            alignment: Alignment.center,
+            child: Text("Bebidas"),
+          ),
+        ),
+        Card(
+          child: Container(
+            height: 200.0,
+            alignment: Alignment.center,
+            child: Text("Postres"),
+          ),
+        ),
+      ],
+    );
   }
 }

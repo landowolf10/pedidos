@@ -28,9 +28,9 @@ class ProductosState extends State<Productos>
   void initState() {
     //tabIndex = 0;
 
-    //initialization();
-    mostrarPlatillos(1);
-    mostrarBebidas(2);
+    initialization();
+    //mostrarPlatillos(1);
+    //mostrarBebidas(2);
 
     //print("Lista de productos: " + listOfProducts.toString());
 
@@ -41,19 +41,31 @@ class ProductosState extends State<Productos>
     super.initState();
   }
 
-  /*initialization() async {
+  initialization() async {
     await mostrarPlatillos(1);
-  }*/
+    await mostrarBebidas(2);
+  }
 
   getElement(){
     if(tabIndex == 0)
       elements = listaEntradas.length;
       
     if(tabIndex == 1)
+    {
       elements = listaPlatillos.length;
+      _buildList(key: "key1", producto: listaPlatillos, elementos: elements);
+    }
 
     if(tabIndex == 2)
-      elements = listaBebidas.length;
+    {
+      if(listaBebidas.length == 1)
+        elements = 0;
+      else
+      {
+        elements = listaBebidas.length;
+        _buildList(key: "key1", producto: listaBebidas, elementos: elements);
+      }
+    }
 
     if(tabIndex == 3)
       elements = listaPostres.length;
@@ -111,8 +123,8 @@ class ProductosState extends State<Productos>
 
         print(counter);
 
-        for (int i = 0; i < counter; i++)
-          listaPlatillos.add(listaProductos[i]["nombre"]);
+        for (int j = 0; j < counter; j++)
+          listaPlatillos.add(listaProductos[j]["nombre"]);
 
         getElement();
 
@@ -145,8 +157,8 @@ class ProductosState extends State<Productos>
 
       print(counter);
 
-      for (int i = 0; i < counter; i++)
-        listaBebidas.add(listaProductos[i]["nombre"]);
+      for (int j = 0; j < counter; j++)
+        listaBebidas.add(listaProductos[j]["nombre"]);
 
       getElement();
 
@@ -259,137 +271,12 @@ class ProductosState extends State<Productos>
                       onPressed: () {}),
                 )
               ],
-              
             ),
             
           ),
         ],
       ),
-      /*body: ListView(
-        children: <Widget>[
-          Container(
-            height: 350.0,
-            child: Column(
-              children: <Widget>[
-                Flexible(
-                    child: DefaultTabController(
-                        length: 4,
-                        child: Scaffold(
-                            appBar: AppBar(
-                              title: Center(child: Text('Arme su pedido')),
-                              bottom: TabBar(
-                                controller: tabController,
-                                tabs: [
-                                  Tab(
-                                    text: "Entradas",
-                                  ),
-                                  Tab(
-                                    text: "Platillos",
-                                  ),
-                                  Tab(
-                                    text: "Bebidas",
-                                  ),
-                                  Tab(
-                                    text: "Postres",
-                                  ),
-                                ],
-                                onTap: (value) {
-                                  tabIndex = value;
-
-                                  if (tabIndex == 0) mostrarEntradas(tabIndex);
-
-                                  if (tabIndex == 1) mostrarPlatillos(tabIndex);
-
-                                  if (tabIndex == 2) mostrarBebidas(tabIndex);
-
-                                  if (tabIndex == 3) mostrarPostres(tabIndex);
-
-                                  print(tabIndex);
-                                },
-                              ),
-                            ),
-                            body: TabBarView(
-                              controller: tabController,
-                              children: [
-                                Column(
-                                  children: <Widget>[
-                                    ListView(
-                                      children: <Widget>[
-                                        Platillos(),
-                                        Platillos(),
-                                        Platillos(),
-                                        Platillos(),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                                /*Text("Entradas"),
-                                Text(listaPlatillos.toString()),
-                                Text("Bebidas"),
-                                Text("Postres")*/
-                              ],
-                            )))),
-                ButtonTheme(
-                  minWidth: 200.0,
-                  height: 44.0,
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.red,
-                      child: Text(
-                        'Ir al carrito',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {}),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),*/
     );
-
-    /*return MaterialApp(
-      home: DefaultTabController(
-        length: 4,
-        child: Scaffold(
-          
-          appBar: AppBar(
-            title: Center(child:Text('Arme su pedido')),
-            bottom: TabBar(
-              tabs: [
-                Tab(text: "Entradas", ),
-                Tab(text: "Platillos",),
-                Tab(text: "Bebidas",),
-                Tab(text: "Postres", ),
-              ],
-              onTap: (value){
-                tabIndex = value;
-
-                //if(tabIndex == 1)
-                  mostrarProductos(tabIndex);
-
-                /*if(tabIndex == 2)
-                  mostrarProductos(tabIndex);*/
-
-                print(tabIndex);
-              },
-            ),
-            // title: Text('Tabs Demo'),
-          ),
-          body: TabBarView(
-            children: [
-              Text("Entradas"),
-              Text("Platillos fuertes"),
-              Text("Bebidas"),
-              Text("Postres")
-            ],
-          ),
-          
-        ),
-      ),
-    );*/
   }
 }
 

@@ -165,35 +165,52 @@ CALL insertar_producto('Yoli', 'Bebida', 12, 'imagen.jpg')
 
 
 
-6. Procedimiento almacenado para seleccionar productos por categoría.
+6. Procedimiento almacenado para mostrar entradas.
 DELIMITER //
-CREATE PROCEDURE mostrar_productos
-( 
-    IN indice_categoria INT
-)
+CREATE PROCEDURE mostrar_entradas
+()
 BEGIN
-	IF (indice_categoria = 0) THEN
-    	SELECT p.nombre, p.precio, p.categoria, p.imagen
-        FROM productos AS p
-        WHERE p.categoria = 'Entrada';
-    END IF;
-    
-    IF (indice_categoria = 1) THEN
-    	SELECT p.nombre, p.precio, p.categoria, p.imagen
-        FROM productos AS p
-        WHERE p.categoria = 'Platillo';
-    END IF;
-    
-    IF (indice_categoria = 2) THEN
-    	SELECT p.nombre, p.precio, p.categoria, p.imagen
-        FROM productos AS p
-        WHERE p.categoria = 'Bebida';
-    END IF;
-    
-    IF (indice_categoria = 3) THEN
-    	SELECT p.nombre, p.precio, p.categoria, p.imagen
-        FROM productos AS p
-        WHERE p.categoria = 'Postre';
-    END IF;
+	SELECT p.nombre, p.precio, p.categoria, p.imagen
+    FROM productos AS p
+    WHERE p.categoria = 'Entrada';
+END//
+DELIMITER ;
+
+
+
+7. Procedimiento almacenado para mostrar platillos.
+DELIMITER //
+CREATE PROCEDURE mostrar_platillos
+()
+BEGIN
+	SELECT p.nombre, p.precio, p.categoria, p.imagen
+    FROM productos AS p
+    WHERE p.categoria = 'Platillo';
+END//
+DELIMITER ;
+
+
+
+8. Procedimiento almacenado para mostrar bebidas.
+DELIMITER //
+CREATE PROCEDURE mostrar_bebidas
+()
+BEGIN
+	SELECT p.nombre, p.precio, p.categoria, p.imagen
+    FROM productos AS p
+    WHERE p.categoria = 'Bebida';
+END//
+DELIMITER ;
+
+
+
+9. Procedimiento almacenado para mostrar postres.
+DELIMITER //
+CREATE PROCEDURE mostrar_postres
+()
+BEGIN
+	SELECT p.nombre, p.precio, p.categoria, p.imagen
+    FROM productos AS p
+    WHERE p.categoria = 'Postre';
 END//
 DELIMITER ;

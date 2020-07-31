@@ -31,6 +31,7 @@ dependencies:
   http:
   firebase_messaging:
   fluttertoast:
+  flushbar:
 
 dev_dependencies:
   flutter_test:

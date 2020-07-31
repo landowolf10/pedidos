@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedidos/src/models/products_model.dart';
+import 'package:pedidos/src/pages/carrito.dart';
 
 String pedido = "";
+
+List<String> pedidoRealizado = new List<String>();
 
 class Productos extends StatefulWidget {
   @override
@@ -25,19 +27,15 @@ class ProductosState extends State<Productos>
   List<String> listaBebidas = new List<String>();
   List<String> listaPostres = new List<String>();
 
+  List<String> selectedProduct = new List<String>();
+  List<String> productDescription = new List<String>();
+  List<String> productImage = new List<String>();
+
   @override
   void initState() {
-    //tabIndex = 0;
-
     initialization();
-    //mostrarPlatillos(1);
-    //mostrarBebidas(2);
-
-    //print("Lista de productos: " + listOfProducts.toString());
 
     tabController = TabController(length: 4, vsync: this, initialIndex: 0);
-
-    //print(tabIndex);
 
     super.initState();
   }
@@ -52,7 +50,6 @@ class ProductosState extends State<Productos>
 
     if (tabIndex == 1) {
       elements = listaPlatillos.length;
-      //buildListaPlatillos(key: "key1", producto: listaPlatillos, elementos: elements);
     }
 
     if (tabIndex == 2) {
@@ -60,7 +57,6 @@ class ProductosState extends State<Productos>
         elements = 0;
       else {
         elements = listaBebidas.length;
-        //buildListaPlatillos(key: "key1", producto: listaBebidas, elementos: elements);
       }
     }
 
@@ -77,7 +73,6 @@ class ProductosState extends State<Productos>
         await http.post(url, body: {"indice_categoria": index.toString()});
 
     if (response.statusCode == 200) {
-      //print("Número de platillos: " + productsData[0]["nombre"])
       List<dynamic> listaProductos = json
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
@@ -104,13 +99,11 @@ class ProductosState extends State<Productos>
     List jsonResponse;
 
     if (response.statusCode == 200) {
-      //setState(() {
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
       } else {
         throw Exception('Failed to load products from API');
       }
-      //});
     }
 
     return jsonResponse
@@ -128,13 +121,11 @@ class ProductosState extends State<Productos>
     List jsonResponse;
 
     if (response.statusCode == 200) {
-      //setState(() {
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
       } else {
         throw Exception('Failed to load products from API');
       }
-      //});
     }
 
     return jsonResponse.map((bebida) => new Products.fromJson(bebida)).toList();
@@ -148,7 +139,6 @@ class ProductosState extends State<Productos>
         await http.post(url, body: {"indice_categoria": index.toString()});
 
     if (response.statusCode == 200) {
-      //print("Número de platillos: " + productsData[0]["nombre"])
       List<dynamic> listaProductos = json
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
@@ -166,42 +156,72 @@ class ProductosState extends State<Productos>
 
   Widget buildListaPlatillos(data) {
     return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(data[index].nombreProducto,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                )),
-            onTap: () {
-              pedido = pedido + ", " + data[index].nombreProducto;
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(data[index].nombreProducto,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            )
+          ),
+          subtitle: Text(data[index].precioProducto,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            )
+          ),
+          trailing: Image.network(data[index].imagenProducto),
+          onTap: () {
 
-              showDefaultSnackbar(context);
-              /*Fluttertoast.showToast(
-                  msg: "Producto agregado correctamente",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM);*/
-            },
-          );
-        });
+            selectedProduct.add(data[index].nombreProducto);
+            productDescription.add(data[index].descripcionProducto);
+            productImage.add(data[index].imagenProducto);
+
+            productInfo(context, index);
+
+            //pedidoRealizado.add(data[index].nombreProducto);
+            //showDefaultSnackbar(context);
+          },
+        );
+      }
+    );
   }
 
   Widget buildListaBebidas(data) {
     return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(data[index].nombreProducto,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                )),
-            onTap: () {
-              pedido = pedido + " " + data[index].nombreProducto;
-            },
-          );
-        });
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(data[index].nombreProducto,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            )
+          ),
+          subtitle: Text(data[index].precioProducto,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
+          ),
+          trailing: Image.network(data[index].imagenProducto),
+          onTap: () {
+            //pedidoRealizado.add(data[index].nombreProducto);
+
+            selectedProduct.add(data[index].nombreProducto);
+            productDescription.add(data[index].descripcionProducto);
+            productImage.add(data[index].imagenProducto);
+
+            print("Imagen del producto seleccionado: " + productImage.toString());
+            
+            productInfo(context, index);
+
+            //showDefaultSnackbar(context);
+          },
+        );
+      }
+    );
   }
 
   void showDefaultSnackbar(BuildContext context) {
@@ -209,26 +229,17 @@ class ProductosState extends State<Productos>
       SnackBar(
         content: Text("Producto agregado al carrito"),
         action: SnackBarAction(
-          label: 'Click Me',
-          onPressed: () {},
+          label: "Ir al carrito",
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext ctx) => Carrito()));
+          },
         ),
       ),
     );
   }
-
-  /*ListTile _tile(String title, /*String subtitle*/) => ListTile(
-    title: Text(title,
-    style: TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 20,
-    )),
-    //subtitle: Text(subtitle),
-    onTap: (){
-      setState(() {
-        
-      });
-    },
-  );*/
 
   @override
   Widget build(BuildContext context) {
@@ -239,14 +250,15 @@ class ProductosState extends State<Productos>
 
     return Scaffold(
       body: ListView(
+        
         children: <Widget>[
           Container(
-            height: 350.0,
+            height: 400.0,
             color: Colors.blue,
             child: Column(
               children: <Widget>[
                 TabBar(
-                  unselectedLabelColor: Colors.blue[100],
+                  unselectedLabelColor: Colors.red[100],
                   indicator: BoxDecoration(color: Colors.lightBlue),
                   controller: tabController,
                   tabs: <Widget>[
@@ -285,6 +297,7 @@ class ProductosState extends State<Productos>
                     Platillos()
                   ]),
                 ),
+                SizedBox(height: 50),
                 ButtonTheme(
                   minWidth: 200.0,
                   height: 44.0,
@@ -298,7 +311,12 @@ class ProductosState extends State<Productos>
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        print("Pedido realizado: " + pedido);
+                        print("Pedido realizado: " + pedidoRealizado.toString());
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => Carrito()));
                       }),
                 )
               ],
@@ -306,6 +324,29 @@ class ProductosState extends State<Productos>
           ),
         ],
       ),
+    );
+  }
+
+  void productInfo(BuildContext context, int productIndex)
+  {
+    showDialog(
+      context: context,
+      builder: (BuildContext context)
+      {
+        return AlertDialog(
+          title: Text(selectedProduct[productIndex]),
+          content: Text(productDescription[productIndex]), 
+          actions: <Widget>[
+            Image.network(productImage[productIndex]),
+            FlatButton(
+              child: Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      }
     );
   }
 }

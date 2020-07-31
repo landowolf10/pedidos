@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS productos
     categoria   VARCHAR(100)   NOT NULL,
     precio		DECIMAL(10, 2) NOT NULL,
     imagen		VARCHAR(200)   NOT NULL,
+    descripcion VARCHAR(500),
     PRIMARY KEY (id)
 );
 
@@ -153,15 +154,16 @@ CREATE PROCEDURE insertar_producto
     IN nombre_producto		VARCHAR(300),
     IN categoria_producto	VARCHAR(100),
     IN precio_producto		DECIMAL(10, 2),
-    IN imagen_producto 		VARCHAR(200)
+    IN imagen_producto 		VARCHAR(200),
+    IN desc_producto		VARCHAR(500)
 )
 BEGIN
-	INSERT INTO productos(nombre, categoria, precio, imagen)
-    VALUES(nombre_producto, categoria_producto, precio_producto, imagen_producto);
+	INSERT INTO productos(nombre, categoria, precio, imagen, descripcion)
+    VALUES(nombre_producto, categoria_producto, precio_producto, imagen_producto, desc_producto);
 END//
 DELIMITER ;
 
-CALL insertar_producto('Yoli', 'Bebida', 12, 'imagen.jpg')
+CALL insertar_producto('Yoli', 'Bebida', 12, 'imagen.jpg', 'Descripción')
 
 
 
@@ -170,7 +172,7 @@ DELIMITER //
 CREATE PROCEDURE mostrar_entradas
 ()
 BEGIN
-	SELECT p.nombre, p.precio, p.categoria, p.imagen
+	SELECT p.nombre, p.precio, p.categoria, p.imagen, p.descripcion
     FROM productos AS p
     WHERE p.categoria = 'Entrada';
 END//
@@ -183,7 +185,7 @@ DELIMITER //
 CREATE PROCEDURE mostrar_platillos
 ()
 BEGIN
-	SELECT p.nombre, p.precio, p.categoria, p.imagen
+	SELECT p.nombre, p.precio, p.categoria, p.imagen, p.descripcion
     FROM productos AS p
     WHERE p.categoria = 'Platillo';
 END//
@@ -196,7 +198,7 @@ DELIMITER //
 CREATE PROCEDURE mostrar_bebidas
 ()
 BEGIN
-	SELECT p.nombre, p.precio, p.categoria, p.imagen
+	SELECT p.nombre, p.precio, p.categoria, p.imagen, p.descripcion
     FROM productos AS p
     WHERE p.categoria = 'Bebida';
 END//
@@ -209,7 +211,7 @@ DELIMITER //
 CREATE PROCEDURE mostrar_postres
 ()
 BEGIN
-	SELECT p.nombre, p.precio, p.categoria, p.imagen
+	SELECT p.nombre, p.precio, p.categoria, p.imagen, p.descripcion
     FROM productos AS p
     WHERE p.categoria = 'Postre';
 END//

@@ -100,7 +100,8 @@ class _CarritoState extends State<Carrito> {
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   onPressed: (){
-                    
+                    print(pedidoRealizado);
+                    print(precioProducto);
                   }
                 ),
               )

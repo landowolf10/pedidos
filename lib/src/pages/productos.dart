@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +10,7 @@ import 'package:pedidos/src/pages/carrito.dart';
 String pedido = "";
 
 List<String> pedidoRealizado = new List<String>();
+List<String> precioProducto = new List<String>();
 
 class Productos extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class Productos extends StatefulWidget {
 
 class ProductosState extends State<Productos>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TabController tabController;
   int tabIndex = 0, elements = 0;
 
@@ -30,6 +33,7 @@ class ProductosState extends State<Productos>
   List<String> selectedProduct = new List<String>();
   List<String> productDescription = new List<String>();
   List<String> productImage = new List<String>();
+  List<String> productPrice = new List<String>();
 
   @override
   void initState() {
@@ -176,6 +180,7 @@ class ProductosState extends State<Productos>
 
             selectedProduct.add(data[index].nombreProducto);
             productDescription.add(data[index].descripcionProducto);
+            productPrice.add(data[index].precioProducto);
             productImage.add(data[index].imagenProducto);
 
             productInfo(context, index);
@@ -225,7 +230,12 @@ class ProductosState extends State<Productos>
   }
 
   void showDefaultSnackbar(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text('Producto agregado al carrito'),
+      )
+    );
+    /*Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text("Producto agregado al carrito"),
         action: SnackBarAction(
@@ -238,7 +248,7 @@ class ProductosState extends State<Productos>
           },
         ),
       ),
-    );
+    );*/
   }
 
   @override
@@ -343,6 +353,16 @@ class ProductosState extends State<Productos>
               onPressed: () {
                 Navigator.of(context).pop();
               },
+            ),
+            FlatButton(
+              child: Text("Agregar al carrito"),
+              onPressed: (){
+                
+                pedidoRealizado.add(selectedProduct[productIndex]);
+                precioProducto.add(productPrice[productIndex]);
+                Navigator.of(context).pop();
+                //showDefaultSnackbar(context);
+              }
             )
           ],
         );

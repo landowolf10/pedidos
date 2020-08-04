@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +7,7 @@ import 'package:pedidos/src/models/products_model.dart';
 import 'package:pedidos/src/pages/carrito.dart';
 
 String pedido = "";
+double total = 0;
 
 List<String> pedidoRealizado = new List<String>();
 List<String> precioProducto = new List<String>();
@@ -98,7 +98,7 @@ class ProductosState extends State<Productos>
 
     final response = await http.get(url);
 
-    print(response.body);
+    //print(response.body);
 
     List jsonResponse;
 
@@ -108,6 +108,14 @@ class ProductosState extends State<Productos>
       } else {
         throw Exception('Failed to load products from API');
       }
+    }
+
+    for (int i = 0; i < jsonResponse.length; i++)
+    {
+      selectedProduct.add(jsonResponse[i]["nombre"]);
+      productDescription.add(jsonResponse[i]["descripcion"]);
+      productPrice.add(jsonResponse[i]["precio"]);
+      productImage.add(jsonResponse[i]["imagen"]);
     }
 
     return jsonResponse
@@ -130,6 +138,14 @@ class ProductosState extends State<Productos>
       } else {
         throw Exception('Failed to load products from API');
       }
+    }
+
+    for (int i = 0; i < jsonResponse.length; i++)
+    {
+      selectedProduct.add(jsonResponse[i]["nombre"]);
+      productDescription.add(jsonResponse[i]["descripcion"]);
+      productPrice.add(jsonResponse[i]["precio"]);
+      productImage.add(jsonResponse[i]["imagen"]);
     }
 
     return jsonResponse.map((bebida) => new Products.fromJson(bebida)).toList();
@@ -159,6 +175,8 @@ class ProductosState extends State<Productos>
   }
 
   Widget buildListaPlatillos(data) {
+    print("Data length: " + data.length.toString());
+
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
@@ -177,11 +195,8 @@ class ProductosState extends State<Productos>
           ),
           trailing: Image.network(data[index].imagenProducto),
           onTap: () {
-
-            selectedProduct.add(data[index].nombreProducto);
-            productDescription.add(data[index].descripcionProducto);
-            productPrice.add(data[index].precioProducto);
-            productImage.add(data[index].imagenProducto);
+            print("Index: " + index.toString());
+            print("Productos seleccionados" + selectedProduct.toString());
 
             productInfo(context, index);
 
@@ -301,10 +316,10 @@ class ProductosState extends State<Productos>
                 ),
                 Expanded(
                   child: TabBarView(controller: tabController, children: [
-                    Platillos(),
+                    Bebidas(),
                     Platillos(),
                     Bebidas(),
-                    Platillos()
+                    Bebidas()
                   ]),
                 ),
                 SizedBox(height: 50),
@@ -339,6 +354,8 @@ class ProductosState extends State<Productos>
 
   void productInfo(BuildContext context, int productIndex)
   {
+    print("Index del producto seleccionado: " + productIndex.toString());
+
     showDialog(
       context: context,
       builder: (BuildContext context)
@@ -360,6 +377,9 @@ class ProductosState extends State<Productos>
                 
                 pedidoRealizado.add(selectedProduct[productIndex]);
                 precioProducto.add(productPrice[productIndex]);
+
+                total += double.parse(productPrice[productIndex]);
+
                 Navigator.of(context).pop();
                 //showDefaultSnackbar(context);
               }

@@ -41,14 +41,20 @@ class _CarritoState extends State<Carrito> {
                   itemCount: pedidoRealizado.length,
                   itemBuilder: (BuildContext ctxt, int index) {
                     final item = pedidoRealizado[index];
+                    final price = precioProducto[index];
 
                     return Dismissible(
                       key: Key(item),
                       onDismissed: (direction) {
                         setState(() {
                           pedidoRealizado.removeAt(index);
+                          precioProducto.removeAt(index);
 
-                          print(pedidoRealizado);
+                          total = total - double.parse(price);
+                          
+                          print("Producto a pedir: " + pedidoRealizado.toString());
+                          print("Precio del producto eliminado: " + price.toString());
+                          print(total);
                         });
                       },
                       background: Container(
@@ -72,6 +78,18 @@ class _CarritoState extends State<Carrito> {
                                       fontSize: 16, color: Colors.red),
                                   ),
                                 ),
+                              ],
+                            ),
+                            trailing: Wrap(
+                              spacing: 12,
+                              children: <Widget>[
+                                Text(precioProducto[index]),
+                                Column(
+                                  children: <Widget>[
+                                    Text("Aumentar"),
+                                    Text("Disminuir")
+                                  ],
+                                )
                               ],
                             ),
                             onTap: () {
@@ -100,8 +118,10 @@ class _CarritoState extends State<Carrito> {
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   onPressed: (){
-                    print(pedidoRealizado);
-                    print(precioProducto);
+                    print("Pedido: " + pedidoRealizado.toString());
+                    print("Lista precios: " + precioProducto.toString());
+
+                    print("Total: " + total.toString());
                   }
                 ),
               )

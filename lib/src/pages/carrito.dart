@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pedidos/src/pages/productos.dart';
+
+List<int> listaCantidad = new List<int>();
 
 class Carrito extends StatefulWidget {
   Carrito({Key key}) : super(key: key);
@@ -9,7 +12,9 @@ class Carrito extends StatefulWidget {
 }
 
 class _CarritoState extends State<Carrito> {
+  TextEditingController cantidadController = new TextEditingController();
   bool cargando;
+  int cantidad = 1, productIndex;
 
   @override
   void initState() {
@@ -80,22 +85,14 @@ class _CarritoState extends State<Carrito> {
                                 ),
                               ],
                             ),
-                            trailing: Wrap(
-                              spacing: 12,
-                              children: <Widget>[
-                                Text(precioProducto[index]),
-                                Column(
-                                  children: <Widget>[
-                                    Text("Aumentar"),
-                                    Text("Disminuir")
-                                  ],
-                                )
-                              ],
-                            ),
+                            trailing: Text(precioProducto[index]),
+
                             onTap: () {
+                              productIndex = index;
+
                               setState(()
                               {
-
+                                //productQuantity(context, productIndex);
                               });
                             },
                           ),
@@ -131,4 +128,57 @@ class _CarritoState extends State<Carrito> {
       ),
     );
   }
+
+  /*void productQuantity(BuildContext context, int productIndex)
+  {
+    print("Index del producto seleccionado: " + productIndex.toString());
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context)
+      {
+        return AlertDialog(
+          title: Text(selectedProduct[productIndex]),
+          content: StatefulBuilder(
+            builder: (BuildContext context, setState){
+              return SingleChildScrollView(
+                child:  Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Image.network(productImage[productIndex]),
+                    TextField(
+                      controller: cantidadController,
+                      keyboardType: TextInputType.numberWithOptions(decimal: false),
+                      decoration: InputDecoration(hintText: "Cantidad"),
+                    ),
+                  ],
+                ),
+              );
+            }
+          ), 
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Agregar al carrito"),
+              onPressed: (){
+                
+                pedidoRealizado.add(selectedProduct[productIndex]);
+                precioProducto.add(productPrice[productIndex]);
+
+                total += double.parse(productPrice[productIndex]);
+
+                Navigator.of(context).pop();
+                //showDefaultSnackbar(context);
+              }
+            )
+          ],
+        );
+      }
+    );
+  }*/
 }

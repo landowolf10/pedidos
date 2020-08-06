@@ -68,7 +68,7 @@ class ProductosState extends State<Productos>
     }
   }
 
-  obtenerPlatillos() async {
+  /*obtenerPlatillos() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
 
@@ -86,9 +86,9 @@ class ProductosState extends State<Productos>
 
       print(listaEntradas);
     }
-  }
+  }*/
 
-  /*Future<List<Products>> obtenerPlatillos() async {
+  Future<List<Products>> obtenerPlatillos() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
 
@@ -106,17 +106,10 @@ class ProductosState extends State<Productos>
       }
     }
 
-    for (int i = 0; i < jsonResponse.length; i++) {
-      selectedProduct.add(jsonResponse[i]["nombre"]);
-      productDescription.add(jsonResponse[i]["descripcion"]);
-      productPrice.add(jsonResponse[i]["precio"]);
-      productImage.add(jsonResponse[i]["imagen"]);
-    }
-
     return jsonResponse
         .map((platillo) => new Products.fromJson(platillo))
         .toList();
-  }*/
+  }
 
   /*Future<List<Products>> obtenerBebidas() async {
     var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
@@ -296,9 +289,9 @@ class ProductosState extends State<Productos>
                         print("Platillos: " + listaPlatillos.toString());
 
                         Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext ctx) => Platillos()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext ctx) => Platillos()));
                       }),
                 ),
               ],

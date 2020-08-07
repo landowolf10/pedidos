@@ -121,10 +121,10 @@ class _PlatillosState extends State<Platillos> {
               child: Text("Agregar al carrito"),
               onPressed: (){
                 
-                //pedidoRealizado.add(selectedProduct[productIndex]);
-                //precioProducto.add(productPrice[productIndex]);
+                pedidoRealizado.add(listaPlatillos[productIndex]);
+                precioProducto.add(precioPlatillo[productIndex]);
 
-                //total += double.parse(productPrice[productIndex]);
+                total += double.parse(precioPlatillo[productIndex]);
 
                 Navigator.of(context).pop();
                 //showDefaultSnackbar(context);

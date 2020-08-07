@@ -92,7 +92,7 @@ class _CarritoState extends State<Carrito> {
 
                               setState(()
                               {
-                                //productQuantity(context, productIndex);
+                                productQuantity(context, productIndex);
                               });
                             },
                           ),
@@ -129,7 +129,7 @@ class _CarritoState extends State<Carrito> {
     );
   }
 
-  /*void productQuantity(BuildContext context, int productIndex)
+  void productQuantity(BuildContext context, int productIndex)
   {
     print("Index del producto seleccionado: " + productIndex.toString());
 
@@ -138,14 +138,14 @@ class _CarritoState extends State<Carrito> {
       builder: (BuildContext context)
       {
         return AlertDialog(
-          title: Text(selectedProduct[productIndex]),
+          title: Text(pedidoRealizado[productIndex]),
           content: StatefulBuilder(
             builder: (BuildContext context, setState){
               return SingleChildScrollView(
                 child:  Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Image.network(productImage[productIndex]),
+                    //Image.network(productImage[productIndex]),
                     TextField(
                       controller: cantidadController,
                       keyboardType: TextInputType.numberWithOptions(decimal: false),
@@ -164,13 +164,13 @@ class _CarritoState extends State<Carrito> {
               },
             ),
             FlatButton(
-              child: Text("Agregar al carrito"),
+              child: Text("Agregar cantidad"),
               onPressed: (){
                 
-                pedidoRealizado.add(selectedProduct[productIndex]);
+                /*pedidoRealizado.add(selectedProduct[productIndex]);
                 precioProducto.add(productPrice[productIndex]);
 
-                total += double.parse(productPrice[productIndex]);
+                total += double.parse(productPrice[productIndex]);*/
 
                 Navigator.of(context).pop();
                 //showDefaultSnackbar(context);
@@ -180,5 +180,5 @@ class _CarritoState extends State<Carrito> {
         );
       }
     );
-  }*/
+  }
 }

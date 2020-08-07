@@ -30,6 +30,8 @@ List<String> descripcionPlatillo = new List<String>();
 List<String> descripcionBebida = new List<String>();
 List<String> imagenPlatillo = new List<String>();
 List<String> imagenBebida = new List<String>();
+List<String> precioPlatillo = new List<String>();
+List<String> precioBebida = new List<String>();
 
 class Productos extends StatefulWidget {
   @override
@@ -96,6 +98,7 @@ class ProductosState extends State<Productos>
         listaPreciosPlatillos.add(listaProductos[i]["precio"]);
         descripcionPlatillo.add(listaProductos[i]["descripcion"]);
         imagenPlatillo.add(listaProductos[i]["imagen"]);
+        precioPlatillo.add(listaProductos[i]["precio"]);
       }
     }
   }
@@ -121,6 +124,7 @@ class ProductosState extends State<Productos>
         listaPreciosBebidas.add(listaProductos[i]["precio"]);
         descripcionBebida.add(listaProductos[i]["descripcion"]);
         imagenBebida.add(listaProductos[i]["imagen"]);
+        precioBebida.add(listaProductos[i]["precio"]);
       }
         
 
@@ -286,113 +290,117 @@ class ProductosState extends State<Productos>
       child: Image.asset("img/botanaxLogo.png"),
     );*/
 
-    return ListView(
-      children: <Widget>[
-        Center(
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  ButtonTheme(
-                    minWidth: 150.0,
-                    height: 150.0,
-                    child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        color: Colors.red,
-                        child: Text(
-                          'Entradas',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        onPressed: () {}),
-                  ),
-                  SizedBox(width: 50),
-                  ButtonTheme(
-                    minWidth: 150.0,
-                    height: 150.0,
-                    child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        color: Colors.red,
-                        child: Text(
-                          'Platillos',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext ctx) => Platillos()));
-                        }),
-                  ),
-                ],
-              ),
-              SizedBox(height: 50),
-              Row(
-                children: <Widget>[
-                  ButtonTheme(
-                    minWidth: 150.0,
-                    height: 150.0,
-                    child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        color: Colors.red,
-                        child: Text(
-                          'Bebidas',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext ctx) => Bebidas()));
-                        }),
-                  ),
-                  SizedBox(width: 50),
-                  ButtonTheme(
-                    minWidth: 150.0,
-                    height: 150.0,
-                    child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        color: Colors.red,
-                        child: Text(
-                          'Postres',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        onPressed: () {}),
-                  ),
-                ],
-              ),
-              ButtonTheme(
-                minWidth: 200.0,
-                height: 44.0,
-                child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+    return Container(
+      color: Colors.blue,
+      child: ListView(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 150.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.red,
+                          child: Text(
+                            'Entradas',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          onPressed: () {}),
                     ),
-                    color: Colors.red,
-                    child: Text(
-                      'Ir al carrito',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    SizedBox(width: 50),
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 150.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.red,
+                          child: Text(
+                            'Platillos',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext ctx) => Platillos()));
+                          }),
                     ),
-                    onPressed: () {
-                      print("Pedido realizado: " + pedidoRealizado.toString());
+                  ],
+                ),
+                SizedBox(height: 50),
+                Row(
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 150.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.red,
+                          child: Text(
+                            'Bebidas',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext ctx) => Bebidas()));
+                          }),
+                    ),
+                    SizedBox(width: 50),
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 150.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.red,
+                          child: Text(
+                            'Postres',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          onPressed: () {}),
+                    ),
+                  ],
+                ),
+                ButtonTheme(
+                  minWidth: 200.0,
+                  height: 44.0,
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.red,
+                      child: Text(
+                        'Ir al carrito',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      onPressed: () {
+                        print("Pedido realizado: " + pedidoRealizado.toString());
 
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext ctx) => Carrito()));
-                    }),
-              )
-            ],
-          ),
-        )
-      ],
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext ctx) => Carrito()));
+                      }),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

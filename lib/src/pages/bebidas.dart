@@ -118,11 +118,10 @@ class _BebidasState extends State<Bebidas> {
             FlatButton(
               child: Text("Agregar al carrito"),
               onPressed: (){
-                
-                //pedidoRealizado.add(selectedProduct[productIndex]);
-                //precioProducto.add(productPrice[productIndex]);
+                pedidoRealizado.add(listaBebidas[productIndex]);
+                precioProducto.add(precioBebida[productIndex]);
 
-                //total += double.parse(productPrice[productIndex]);
+                total += double.parse(precioBebida[productIndex]);
 
                 Navigator.of(context).pop();
                 //showDefaultSnackbar(context);

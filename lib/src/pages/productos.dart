@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedidos/src/models/products_model.dart';
+import 'package:pedidos/src/pages/bebidas.dart';
 import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/platillos.dart';
 
@@ -22,6 +23,13 @@ List<String> listaEntradas = new List<String>();
 List<String> listaPlatillos = new List<String>();
 List<String> listaBebidas = new List<String>();
 List<String> listaPostres = new List<String>();
+
+List<String> listaPreciosPlatillos = new List<String>();
+List<String> listaPreciosBebidas = new List<String>();
+List<String> descripcionPlatillo = new List<String>();
+List<String> descripcionBebida = new List<String>();
+List<String> imagenPlatillo = new List<String>();
+List<String> imagenBebida = new List<String>();
 
 class Productos extends StatefulWidget {
   @override
@@ -44,10 +52,11 @@ class ProductosState extends State<Productos>
 
   initialization() async {
     await obtenerPlatillos();
+    await obtenerBebidas();
     //await obtenerBebidas();
   }
 
-  mostrarEntradas(int index) async {
+  /*mostrarEntradas(int index) async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
 
@@ -66,9 +75,9 @@ class ProductosState extends State<Productos>
 
       print(listaEntradas);
     }
-  }
+  }*/
 
-  /*obtenerPlatillos() async {
+  obtenerPlatillos() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
 
@@ -79,16 +88,47 @@ class ProductosState extends State<Productos>
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
 
-      listaEntradas.clear();
+      listaPlatillos.clear();
 
       for (int i = 0; i < listaProductos.length; i++)
+      {
         listaPlatillos.add(listaProductos[i]["nombre"]);
-
-      print(listaEntradas);
+        listaPreciosPlatillos.add(listaProductos[i]["precio"]);
+        descripcionPlatillo.add(listaProductos[i]["descripcion"]);
+        imagenPlatillo.add(listaProductos[i]["imagen"]);
+      }
     }
-  }*/
+  }
 
-  Future<List<Products>> obtenerPlatillos() async {
+  obtenerBebidas() async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> listaProductos = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
+
+      print("Bebidas: " + listaProductos.toString());
+
+      listaBebidas.clear();
+
+      for (int i = 0; i < listaProductos.length; i++)
+      {
+        listaBebidas.add(listaProductos[i]["nombre"]);
+        listaPreciosBebidas.add(listaProductos[i]["precio"]);
+        descripcionBebida.add(listaProductos[i]["descripcion"]);
+        imagenBebida.add(listaProductos[i]["imagen"]);
+      }
+        
+
+      print(listaProductos);
+    }
+  }
+
+  /*Future<List<Products>> obtenerPlatillos() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
 
@@ -109,7 +149,7 @@ class ProductosState extends State<Productos>
     return jsonResponse
         .map((platillo) => new Products.fromJson(platillo))
         .toList();
-  }
+  }*/
 
   /*Future<List<Products>> obtenerBebidas() async {
     var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
@@ -126,13 +166,6 @@ class ProductosState extends State<Productos>
       } else {
         throw Exception('Failed to load products from API');
       }
-    }
-
-    for (int i = 0; i < jsonResponse.length; i++) {
-      selectedProduct.add(jsonResponse[i]["nombre"]);
-      productDescription.add(jsonResponse[i]["descripcion"]);
-      productPrice.add(jsonResponse[i]["precio"]);
-      productImage.add(jsonResponse[i]["imagen"]);
     }
 
     return jsonResponse.map((bebida) => new Products.fromJson(bebida)).toList();
@@ -255,101 +288,109 @@ class ProductosState extends State<Productos>
 
     return ListView(
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                ButtonTheme(
-                  minWidth: 100.0,
-                  height: 44.0,
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.red,
-                      child: Text(
-                        'Entradas',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {}),
-                ),
-                ButtonTheme(
-                  minWidth: 100.0,
-                  height: 44.0,
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.red,
-                      child: Text(
-                        'Platillos',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {
-                        print("Platillos: " + listaPlatillos.toString());
-
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext ctx) => Platillos()));
-                      }),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                ButtonTheme(
-                  minWidth: 100.0,
-                  height: 44.0,
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.red,
-                      child: Text(
-                        'Bebidas',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {}),
-                ),
-                ButtonTheme(
-                  minWidth: 100.0,
-                  height: 44.0,
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.red,
-                      child: Text(
-                        'Postres',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {}),
-                ),
-              ],
-            ),
-            ButtonTheme(
-              minWidth: 200.0,
-              height: 44.0,
-              child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+        Center(
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  ButtonTheme(
+                    minWidth: 150.0,
+                    height: 150.0,
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        color: Colors.red,
+                        child: Text(
+                          'Entradas',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        onPressed: () {}),
                   ),
-                  color: Colors.red,
-                  child: Text(
-                    'Ir al carrito',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  SizedBox(width: 50),
+                  ButtonTheme(
+                    minWidth: 150.0,
+                    height: 150.0,
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        color: Colors.red,
+                        child: Text(
+                          'Platillos',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext ctx) => Platillos()));
+                        }),
                   ),
-                  onPressed: () {
-                    print("Pedido realizado: " + pedidoRealizado.toString());
+                ],
+              ),
+              SizedBox(height: 50),
+              Row(
+                children: <Widget>[
+                  ButtonTheme(
+                    minWidth: 150.0,
+                    height: 150.0,
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        color: Colors.red,
+                        child: Text(
+                          'Bebidas',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext ctx) => Bebidas()));
+                        }),
+                  ),
+                  SizedBox(width: 50),
+                  ButtonTheme(
+                    minWidth: 150.0,
+                    height: 150.0,
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        color: Colors.red,
+                        child: Text(
+                          'Postres',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        onPressed: () {}),
+                  ),
+                ],
+              ),
+              ButtonTheme(
+                minWidth: 200.0,
+                height: 44.0,
+                child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.red,
+                    child: Text(
+                      'Ir al carrito',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      print("Pedido realizado: " + pedidoRealizado.toString());
 
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext ctx) => Carrito()));
-                  }),
-            )
-          ],
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => Carrito()));
+                    }),
+              )
+            ],
+          ),
         )
       ],
     );

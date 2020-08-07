@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
-class Platillos extends StatefulWidget {
-  Platillos({Key key}) : super(key: key);
+class Bebidas extends StatefulWidget {
+  Bebidas({Key key}) : super(key: key);
 
   @override
-  _PlatillosState createState() => _PlatillosState();
+  _BebidasState createState() => _BebidasState();
 }
 
-class _PlatillosState extends State<Platillos> {
+class _BebidasState extends State<Bebidas> {
   bool cargando;
 
   @override
   void initState() {
-    if (listaPlatillos.isEmpty)
+    if (listaBebidas.isEmpty)
       cargando = true;
     else
       cargando = false;
@@ -36,27 +36,27 @@ class _PlatillosState extends State<Platillos> {
                       height: 225,
                       child: cargando
                           ? Container(
-                              child: Text("No hay platillos en el menú",
+                              child: Text("No hay bebidas en el menú",
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 18,
                                   )))
                           : ListView.builder(
-                              itemCount: listaPlatillos.length,
+                              itemCount: listaBebidas.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
-                                  title: Text(listaPlatillos[index],
+                                  title: Text(listaBebidas[index],
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  subtitle: Text(listaPreciosPlatillos[index],
+                                  subtitle: Text(listaPreciosBebidas[index],
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 20,
                                     )
                                   ),
-                                  trailing: Image.network(imagenPlatillo[index]),
+                                  trailing: Image.network(imagenBebida[index]),
                                   onTap: () {
                                     print("Index: " + index.toString());
                                     //print("Productos seleccionados" + selectedProduct.toString());
@@ -93,9 +93,7 @@ class _PlatillosState extends State<Platillos> {
                   ],
                 )
               ],
-            )
-        )
-    );
+            )));
   }
 
   void productInfo(BuildContext context, int productIndex)
@@ -107,10 +105,10 @@ class _PlatillosState extends State<Platillos> {
       builder: (BuildContext context)
       {
         return AlertDialog(
-          title: Text(listaPlatillos[productIndex]),
-          content: Text(descripcionPlatillo[productIndex]), 
+          title: Text(listaBebidas[productIndex]),
+          content: Text(descripcionBebida[productIndex]), 
           actions: <Widget>[
-            Image.network(imagenPlatillo[productIndex]),
+            Image.network(imagenBebida[productIndex]),
             FlatButton(
               child: Text("Cerrar"),
               onPressed: () {

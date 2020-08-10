@@ -60,6 +60,7 @@ class _CarritoState extends State<Carrito> {
                               setState(() {
                                 pedidoRealizado.removeAt(index);
                                 precioProducto.removeAt(index);
+                                listaCantidad.removeAt(index);
 
                                 //total = total - double.parse(price);
 
@@ -113,6 +114,29 @@ class _CarritoState extends State<Carrito> {
                         },
                       ),
               ),
+              ButtonTheme(
+                minWidth: 200.0,
+                height: 44.0,
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: Colors.red,
+                  child: Text(
+                    'Regresar al menú',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext ctx) => Productos()));
+                        }
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(total.toString()),
+              SizedBox(height: 20),
               ButtonTheme(
                 minWidth: 200.0,
                 height: 44.0,

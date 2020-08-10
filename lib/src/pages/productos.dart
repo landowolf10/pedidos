@@ -52,27 +52,6 @@ class ProductosState extends State<Productos>
     //await obtenerBebidas();
   }
 
-  /*mostrarEntradas(int index) async {
-    var url =
-        "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
-
-    final response =
-        await http.post(url, body: {"indice_categoria": index.toString()});
-
-    if (response.statusCode == 200) {
-      List<dynamic> listaProductos = json
-          .decode(utf8.decode(response.bodyBytes))
-          .cast<Map<String, dynamic>>();
-
-      listaEntradas.clear();
-
-      for (int i = 0; i < listaProductos.length; i++)
-        listaEntradas.add(listaProductos[i]["nombre"]);
-
-      print(listaEntradas);
-    }
-  }*/
-
   obtenerPlatillos() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
@@ -268,37 +247,4 @@ class ProductosState extends State<Productos>
       ),
     );
   }
-
-  /*void productInfo(BuildContext context, int productIndex) {
-    print("Index del producto seleccionado: " + productIndex.toString());
-
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(listaPlatillos[productIndex]),
-            content: Text(productDescription[productIndex]),
-            actions: <Widget>[
-              Image.network(productImage[productIndex]),
-              FlatButton(
-                child: Text("Cerrar"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                  child: Text("Agregar al carrito"),
-                  onPressed: () {
-                    pedidoRealizado.add(selectedProduct[productIndex]);
-                    precioProducto.add(productPrice[productIndex]);
-
-                    total += double.parse(productPrice[productIndex]);
-
-                    Navigator.of(context).pop();
-                    //showDefaultSnackbar(context);
-                  })
-            ],
-          );
-        });
-  }*/
 }

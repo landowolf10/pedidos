@@ -78,6 +78,28 @@ class _BebidasState extends State<Bebidas> {
                           ),
                           color: Colors.red,
                           child: Text(
+                            'Ir al carrito',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            print(
+                                "Pedido realizado: " + pedidoRealizado.toString());
+
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext ctx) => Carrito()));
+                          }),
+                    ),
+                    ButtonTheme(
+                      minWidth: 200.0,
+                      height: 44.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          color: Colors.red,
+                          child: Text(
                             'Regresar al menú',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),

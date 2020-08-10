@@ -9,15 +9,9 @@ import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/platillos.dart';
 
 String pedido = "";
-double total = 0;
 
 List<String> pedidoRealizado = new List<String>();
 List<String> precioProducto = new List<String>();
-
-/*List<String> selectedProduct = new List<String>();
-List<String> productDescription = new List<String>();
-List<String> productImage = new List<String>();
-List<String> productPrice = new List<String>();*/
 
 List<String> listaEntradas = new List<String>();
 List<String> listaPlatillos = new List<String>();
@@ -92,8 +86,7 @@ class ProductosState extends State<Productos>
 
       listaPlatillos.clear();
 
-      for (int i = 0; i < listaProductos.length; i++)
-      {
+      for (int i = 0; i < listaProductos.length; i++) {
         listaPlatillos.add(listaProductos[i]["nombre"]);
         listaPreciosPlatillos.add(listaProductos[i]["precio"]);
         descripcionPlatillo.add(listaProductos[i]["descripcion"]);
@@ -104,8 +97,7 @@ class ProductosState extends State<Productos>
   }
 
   obtenerBebidas() async {
-    var url =
-        "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
+    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
 
     final response = await http.get(url);
 
@@ -118,150 +110,17 @@ class ProductosState extends State<Productos>
 
       listaBebidas.clear();
 
-      for (int i = 0; i < listaProductos.length; i++)
-      {
+      for (int i = 0; i < listaProductos.length; i++) {
         listaBebidas.add(listaProductos[i]["nombre"]);
         listaPreciosBebidas.add(listaProductos[i]["precio"]);
         descripcionBebida.add(listaProductos[i]["descripcion"]);
         imagenBebida.add(listaProductos[i]["imagen"]);
         precioBebida.add(listaProductos[i]["precio"]);
       }
-        
 
       print(listaProductos);
     }
   }
-
-  /*Future<List<Products>> obtenerPlatillos() async {
-    var url =
-        "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
-
-    final response = await http.get(url);
-
-    //print(response.body);
-
-    List jsonResponse;
-
-    if (response.statusCode == 200) {
-      if (response.statusCode == 200) {
-        jsonResponse = json.decode(response.body);
-      } else {
-        throw Exception('Failed to load products from API');
-      }
-    }
-
-    return jsonResponse
-        .map((platillo) => new Products.fromJson(platillo))
-        .toList();
-  }*/
-
-  /*Future<List<Products>> obtenerBebidas() async {
-    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
-
-    final response = await http.get(url);
-
-    print(response.body);
-
-    List jsonResponse;
-
-    if (response.statusCode == 200) {
-      if (response.statusCode == 200) {
-        jsonResponse = json.decode(response.body);
-      } else {
-        throw Exception('Failed to load products from API');
-      }
-    }
-
-    return jsonResponse.map((bebida) => new Products.fromJson(bebida)).toList();
-  }*/
-
-  /*mostrarPostres(int index) async {
-    var url =
-        "https://pruebasbotanax.000webhostapp.com/Pedidos/getProducts.php";
-
-    final response =
-        await http.post(url, body: {"indice_categoria": index.toString()});
-
-    if (response.statusCode == 200) {
-      List<dynamic> listaProductos = json
-          .decode(utf8.decode(response.bodyBytes))
-          .cast<Map<String, dynamic>>();
-
-      listaPostres.clear();
-
-      for (int i = 0; i < listaProductos.length; i++)
-        listaPostres.add(listaProductos[i]["nombre"]);
-
-      print(listaPostres);
-    }
-  }*/
-
-  /*Widget buildListaPlatillos(data) {
-    print("Data length: " + data.length.toString());
-
-    return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(data[index].nombreProducto,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                )),
-            subtitle: Text(data[index].precioProducto,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                )),
-            trailing: Image.network(data[index].imagenProducto),
-            onTap: () {
-              print("Index: " + index.toString());
-              //print("Productos seleccionados" + selectedProduct.toString());
-
-              //productInfo(context, index);
-
-              //pedidoRealizado.add(data[index].nombreProducto);
-              //showDefaultSnackbar(context);
-            },
-          );
-        });
-  }*/
-
-  /*Widget buildListaBebidas(data) {
-    return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(data[index].nombreProducto,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                )),
-            subtitle: Text(
-              data[index].precioProducto,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 20,
-              ),
-            ),
-            trailing: Image.network(data[index].imagenProducto),
-            onTap: () {
-              //pedidoRealizado.add(data[index].nombreProducto);
-
-              /*selectedProduct.add(data[index].nombreProducto);
-              productDescription.add(data[index].descripcionProducto);
-              productImage.add(data[index].imagenProducto);
-
-              print("Imagen del producto seleccionado: " +
-                  productImage.toString());*/
-
-              //productInfo(context, index);
-
-              //showDefaultSnackbar(context);
-            },
-          );
-        });
-  }*/
 
   void showDefaultSnackbar(BuildContext context) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -296,9 +155,11 @@ class ProductosState extends State<Productos>
         children: <Widget>[
           Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 150),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     ButtonTheme(
                       minWidth: 150.0,
@@ -331,13 +192,16 @@ class ProductosState extends State<Productos>
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (BuildContext ctx) => Platillos()));
+                                    builder: (BuildContext ctx) =>
+                                        Platillos()));
                           }),
                     ),
                   ],
                 ),
                 SizedBox(height: 50),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     ButtonTheme(
                       minWidth: 150.0,
@@ -388,7 +252,8 @@ class ProductosState extends State<Productos>
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        print("Pedido realizado: " + pedidoRealizado.toString());
+                        print(
+                            "Pedido realizado: " + pedidoRealizado.toString());
 
                         Navigator.pushReplacement(
                             context,
@@ -437,43 +302,3 @@ class ProductosState extends State<Productos>
         });
   }*/
 }
-
-/*lass Platillos extends StatelessWidget {
-  final prod = new ProductosState();
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Products>>(
-      future: prod.obtenerPlatillos(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Products> data = snapshot.data;
-          return prod.buildListaPlatillos(data);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return CircularProgressIndicator();
-      },
-    );
-  }
-}
-
-class Bebidas extends StatelessWidget {
-  final prod = new ProductosState();
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Products>>(
-      future: prod.obtenerBebidas(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Products> data = snapshot.data;
-          return prod.buildListaBebidas(data);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return CircularProgressIndicator();
-      },
-    );
-  }
-}*/

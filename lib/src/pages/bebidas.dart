@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
 class Bebidas extends StatefulWidget {
@@ -51,11 +52,10 @@ class _BebidasState extends State<Bebidas> {
                                         fontSize: 20,
                                       )),
                                   subtitle: Text(listaPreciosBebidas[index],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20,
-                                    )
-                                  ),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20,
+                                      )),
                                   trailing: Image.network(imagenBebida[index]),
                                   onTap: () {
                                     print("Index: " + index.toString());
@@ -82,12 +82,14 @@ class _BebidasState extends State<Bebidas> {
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: () {
-                            print("Pedido realizado: " + pedidoRealizado.toString());
+                            print("Pedido realizado: " +
+                                pedidoRealizado.toString());
 
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (BuildContext ctx) => Productos()));
+                                    builder: (BuildContext ctx) =>
+                                        Productos()));
                           }),
                     )
                   ],
@@ -96,40 +98,36 @@ class _BebidasState extends State<Bebidas> {
             )));
   }
 
-  void productInfo(BuildContext context, int productIndex)
-  {
+  void productInfo(BuildContext context, int productIndex) {
     print("Index del producto seleccionado: " + productIndex.toString());
 
     showDialog(
-      context: context,
-      builder: (BuildContext context)
-      {
-        return AlertDialog(
-          title: Text(listaBebidas[productIndex]),
-          content: Text(descripcionBebida[productIndex]), 
-          actions: <Widget>[
-            Image.network(imagenBebida[productIndex]),
-            FlatButton(
-              child: Text("Cerrar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text("Agregar al carrito"),
-              onPressed: (){
-                pedidoRealizado.add(listaBebidas[productIndex]);
-                precioProducto.add(precioBebida[productIndex]);
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(listaBebidas[productIndex]),
+            content: Text(descripcionBebida[productIndex]),
+            actions: <Widget>[
+              Image.network(imagenBebida[productIndex]),
+              FlatButton(
+                child: Text("Cerrar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                  child: Text("Agregar al carrito"),
+                  onPressed: () {
+                    pedidoRealizado.add(listaBebidas[productIndex]);
+                    precioProducto.add(precioBebida[productIndex]);
 
-                total += double.parse(precioBebida[productIndex]);
+                    total += double.parse(precioBebida[productIndex]);
 
-                Navigator.of(context).pop();
-                //showDefaultSnackbar(context);
-              }
-            )
-          ],
-        );
-      }
-    );
+                    Navigator.of(context).pop();
+                    //showDefaultSnackbar(context);
+                  })
+            ],
+          );
+        });
   }
 }

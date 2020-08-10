@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
 class Platillos extends StatefulWidget {
@@ -51,12 +52,12 @@ class _PlatillosState extends State<Platillos> {
                                         fontSize: 20,
                                       )),
                                   subtitle: Text(listaPreciosPlatillos[index],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20,
-                                    )
-                                  ),
-                                  trailing: Image.network(imagenPlatillo[index]),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20,
+                                      )),
+                                  trailing:
+                                      Image.network(imagenPlatillo[index]),
                                   onTap: () {
                                     print("Index: " + index.toString());
                                     //print("Productos seleccionados" + selectedProduct.toString());
@@ -82,57 +83,52 @@ class _PlatillosState extends State<Platillos> {
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: () {
-                            print("Pedido realizado: " + pedidoRealizado.toString());
+                            print("Pedido realizado: " +
+                                pedidoRealizado.toString());
 
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (BuildContext ctx) => Productos()));
+                                    builder: (BuildContext ctx) =>
+                                        Productos()));
                           }),
                     )
                   ],
                 )
               ],
-            )
-        )
-    );
+            )));
   }
 
-  void productInfo(BuildContext context, int productIndex)
-  {
+  void productInfo(BuildContext context, int productIndex) {
     print("Index del producto seleccionado: " + productIndex.toString());
 
     showDialog(
-      context: context,
-      builder: (BuildContext context)
-      {
-        return AlertDialog(
-          title: Text(listaPlatillos[productIndex]),
-          content: Text(descripcionPlatillo[productIndex]), 
-          actions: <Widget>[
-            Image.network(imagenPlatillo[productIndex]),
-            FlatButton(
-              child: Text("Cerrar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text("Agregar al carrito"),
-              onPressed: (){
-                
-                pedidoRealizado.add(listaPlatillos[productIndex]);
-                precioProducto.add(precioPlatillo[productIndex]);
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(listaPlatillos[productIndex]),
+            content: Text(descripcionPlatillo[productIndex]),
+            actions: <Widget>[
+              Image.network(imagenPlatillo[productIndex]),
+              FlatButton(
+                child: Text("Cerrar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                  child: Text("Agregar al carrito"),
+                  onPressed: () {
+                    pedidoRealizado.add(listaPlatillos[productIndex]);
+                    precioProducto.add(precioPlatillo[productIndex]);
 
-                total += double.parse(precioPlatillo[productIndex]);
+                    total += double.parse(precioPlatillo[productIndex]);
 
-                Navigator.of(context).pop();
-                //showDefaultSnackbar(context);
-              }
-            )
-          ],
-        );
-      }
-    );
+                    Navigator.of(context).pop();
+                    //showDefaultSnackbar(context);
+                  })
+            ],
+          );
+        });
   }
 }

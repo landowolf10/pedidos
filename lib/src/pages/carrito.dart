@@ -26,7 +26,8 @@ class _CarritoState extends State<Carrito> {
     else
       cargando = false;
 
-    for (int i = 0; i < pedidoRealizado.length; i++) listaCantidad.add(1);
+    if(listaPlatillos.isEmpty && listaBebidas.isEmpty)
+      for (int i = 0; i < pedidoRealizado.length; i++) listaCantidad.add(1);
 
     super.initState();
   }
@@ -62,7 +63,7 @@ class _CarritoState extends State<Carrito> {
                                 precioProducto.removeAt(index);
                                 listaCantidad.removeAt(index);
 
-                                //total = total - double.parse(price);
+                                print("Cantidad removida: " + listaCantidad[index].toString());
 
                                 total = total - double.parse(price) * amount;
 

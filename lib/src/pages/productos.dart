@@ -35,10 +35,6 @@ class Productos extends StatefulWidget {
 class ProductosState extends State<Productos>
     with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TabController tabController;
-  int tabIndex = 0, elements = 0;
-
-  List<Products> listOfProducts;
 
   @override
   void initState() {
@@ -49,7 +45,6 @@ class ProductosState extends State<Productos>
   initialization() async {
     await obtenerPlatillos();
     await obtenerBebidas();
-    //await obtenerBebidas();
   }
 
   obtenerPlatillos() async {
@@ -63,7 +58,7 @@ class ProductosState extends State<Productos>
           .decode(utf8.decode(response.bodyBytes))
           .cast<Map<String, dynamic>>();
 
-      listaPlatillos.clear();
+      //listaPlatillos.clear();
 
       for (int i = 0; i < listaProductos.length; i++) {
         listaPlatillos.add(listaProductos[i]["nombre"]);
@@ -87,7 +82,7 @@ class ProductosState extends State<Productos>
 
       print("Bebidas: " + listaProductos.toString());
 
-      listaBebidas.clear();
+      //listaBebidas.clear();
 
       for (int i = 0; i < listaProductos.length; i++) {
         listaBebidas.add(listaProductos[i]["nombre"]);

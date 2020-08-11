@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
-List<int> listaCantidad = new List<int>();
 double total = 0;
 
 class Carrito extends StatefulWidget {
@@ -17,17 +16,12 @@ class _CarritoState extends State<Carrito> {
   bool cargando;
   int cantidad = 1, productIndex;
 
-  List<int> listaCantidad = new List<int>();
-
   @override
   void initState() {
     if (pedidoRealizado.isEmpty)
       cargando = true;
     else
       cargando = false;
-
-    if(listaPlatillos.isEmpty && listaBebidas.isEmpty)
-      for (int i = 0; i < pedidoRealizado.length; i++) listaCantidad.add(1);
 
     super.initState();
   }
@@ -53,7 +47,7 @@ class _CarritoState extends State<Carrito> {
                         itemBuilder: (BuildContext ctxt, int index) {
                           final item = pedidoRealizado[index];
                           final price = precioProducto[index];
-                          final amount = listaCantidad[index];
+                          final amount = cantidadPlatillo[index];
 
                           return Dismissible(
                             key: Key(item),
@@ -61,9 +55,9 @@ class _CarritoState extends State<Carrito> {
                               setState(() {
                                 pedidoRealizado.removeAt(index);
                                 precioProducto.removeAt(index);
-                                listaCantidad.removeAt(index);
+                                cantidadPlatillo.removeAt(index);
 
-                                print("Cantidad removida: " + listaCantidad[index].toString());
+                                print("Cantidad removida: " + cantidadPlatillo[index].toString());
 
                                 total = total - double.parse(price) * amount;
 
@@ -100,7 +94,7 @@ class _CarritoState extends State<Carrito> {
                                     ),
                                   ],
                                 ),
-                                subtitle: Text(listaCantidad[index].toString()),
+                                subtitle: Text(cantidadPlatillo[index].toString()),
                                 trailing: Text(precioProducto[index]),
                                 onTap: () {
                                   productIndex = index;
@@ -204,11 +198,11 @@ class _CarritoState extends State<Carrito> {
                       else
                         cantidad = 1;
 
-                      listaCantidad[productIndex] = cantidad;
+                      cantidadPlatillo[productIndex] = cantidad;
 
                       total = (total +
                               (double.parse(precioProducto[productIndex]) *
-                                  listaCantidad[productIndex])) -
+                                  cantidadPlatillo[productIndex])) -
                           double.parse(precioProducto[productIndex]);
 
                       //listaTotal[productIndex] = total;

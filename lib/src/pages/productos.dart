@@ -27,6 +27,8 @@ List<String> imagenBebida = new List<String>();
 List<String> precioPlatillo = new List<String>();
 List<String> precioBebida = new List<String>();
 
+List<int> cantidadPlatillo = new List<int>();
+
 class Productos extends StatefulWidget {
   @override
   ProductosState createState() => new ProductosState();
@@ -66,6 +68,7 @@ class ProductosState extends State<Productos>
         descripcionPlatillo.add(listaProductos[i]["descripcion"]);
         imagenPlatillo.add(listaProductos[i]["imagen"]);
         precioPlatillo.add(listaProductos[i]["precio"]);
+        cantidadPlatillo.add(1);
       }
     }
   }

@@ -28,6 +28,7 @@ List<String> precioPlatillo = new List<String>();
 List<String> precioBebida = new List<String>();
 
 List<int> cantidadPlatillo = new List<int>();
+List<int> cantidadBebida = new List<int>();
 
 class Productos extends StatefulWidget {
   @override
@@ -45,6 +46,12 @@ class ProductosState extends State<Productos>
   }
 
   initialization() async {
+    listaPlatillos.clear();
+    listaPreciosPlatillos.clear();
+    descripcionPlatillo.clear();
+    imagenPlatillo.clear();
+    precioPlatillo.clear();
+
     await obtenerPlatillos();
     await obtenerBebidas();
   }
@@ -93,6 +100,7 @@ class ProductosState extends State<Productos>
         descripcionBebida.add(listaProductos[i]["descripcion"]);
         imagenBebida.add(listaProductos[i]["imagen"]);
         precioBebida.add(listaProductos[i]["precio"]);
+        cantidadBebida.add(1);
       }
 
       print(listaProductos);
@@ -127,7 +135,7 @@ class ProductosState extends State<Productos>
     );*/
 
     return Container(
-      color: Colors.blue,
+      color: Colors.white,
       child: ListView(
         children: <Widget>[
           Center(
@@ -146,10 +154,15 @@ class ProductosState extends State<Productos>
                             borderRadius: BorderRadius.circular(30),
                           ),
                           color: Colors.red,
-                          child: Text(
-                            'Entradas',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
+                          child: Column(
+                            children: [
+                              Image.asset("icons/entradas.png", width: 80, height: 80,),
+                              Text(
+                                'Entradas',
+                                style: TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
+                          ), 
                           onPressed: () {}),
                     ),
                     SizedBox(width: 50),
@@ -161,9 +174,14 @@ class ProductosState extends State<Productos>
                             borderRadius: BorderRadius.circular(30),
                           ),
                           color: Colors.red,
-                          child: Text(
-                            'Platillos',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          child: Column(
+                            children: [
+                              Image.asset("icons/platillos.png", width: 80, height: 80,),
+                              Text(
+                                'Platillos',
+                                style: TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
                           ),
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -188,9 +206,14 @@ class ProductosState extends State<Productos>
                             borderRadius: BorderRadius.circular(30),
                           ),
                           color: Colors.red,
-                          child: Text(
-                            'Bebidas',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          child: Column(
+                            children: [
+                              Image.asset("icons/bebidas.png", width: 80, height: 80,),
+                              Text(
+                                'Bebidas',
+                                style: TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
                           ),
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -208,9 +231,14 @@ class ProductosState extends State<Productos>
                             borderRadius: BorderRadius.circular(30),
                           ),
                           color: Colors.red,
-                          child: Text(
-                            'Postres',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          child: Column(
+                            children: [
+                              Image.asset("icons/postres.png", width: 80, height: 80,),
+                              Text(
+                                'Postres',
+                                style: TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
                           ),
                           onPressed: () {}),
                     ),

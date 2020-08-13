@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pedidos/src/pages/dialogos.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
 double total = 0;
@@ -130,8 +131,6 @@ class _CarritoState extends State<Carrito> {
                 ),
               ),
               SizedBox(height: 20),
-              Text(total.toString()),
-              SizedBox(height: 20),
               ButtonTheme(
                 minWidth: 200.0,
                 height: 44.0,
@@ -145,12 +144,22 @@ class _CarritoState extends State<Carrito> {
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     onPressed: () {
-                      print("Pedido: " + pedidoRealizado.toString());
-                      print("Lista precios: " + precioProducto.toString());
+                      if(pedidoRealizado.isEmpty)
+                      {
+                        Dialogos dialogos = new Dialogos();
+                        dialogos.noProductsInCartDialog(context);
+                      }
+                      else
+                      {
+                        print("Pedido: " + pedidoRealizado.toString());
+                        print("Lista precios: " + precioProducto.toString());
 
-                      print("Total: " + total.toString());
+                        print("Total: " + total.toString());
+                      }
                     }),
-              )
+              ),
+              SizedBox(height: 20),
+              Text(total.toString())
             ],
           )
         ],
@@ -207,10 +216,6 @@ class _CarritoState extends State<Carrito> {
 
                       //listaTotal[productIndex] = total;
                     });
-                    /*pedidoRealizado.add(selectedProduct[productIndex]);
-                precioProducto.add(productPrice[productIndex]);
-
-                total += double.parse(productPrice[productIndex]);*/
 
                     Navigator.of(context).pop();
                     cantidadController.text = "";

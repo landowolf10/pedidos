@@ -34,7 +34,7 @@ class _BebidasState extends State<Bebidas> {
                 Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 225,
+                      height: 500,
                       child: cargando
                           ? Container(
                               child: Text("No hay bebidas en el menú",
@@ -58,11 +58,7 @@ class _BebidasState extends State<Bebidas> {
                                       )),
                                   trailing: Image.network(imagenBebida[index]),
                                   onTap: () {
-                                    print("Index: " + index.toString());
-                                    //print("Productos seleccionados" + selectedProduct.toString());
-
                                     productInfo(context, index);
-
                                     //pedidoRealizado.add(data[index].nombreProducto);
                                     //showDefaultSnackbar(context);
                                   },
@@ -82,9 +78,6 @@ class _BebidasState extends State<Bebidas> {
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: () {
-                            print(
-                                "Pedido realizado: " + pedidoRealizado.toString());
-
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -104,9 +97,6 @@ class _BebidasState extends State<Bebidas> {
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: () {
-                            print("Pedido realizado: " +
-                                pedidoRealizado.toString());
-
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

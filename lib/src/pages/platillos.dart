@@ -34,7 +34,7 @@ class _PlatillosState extends State<Platillos> {
                 Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 225,
+                      height: 500,
                       child: cargando
                           ? Container(
                               child: Text("No hay platillos en el menú",
@@ -59,11 +59,7 @@ class _PlatillosState extends State<Platillos> {
                                   trailing:
                                       Image.network(imagenPlatillo[index]),
                                   onTap: () {
-                                    print("Index: " + index.toString());
-                                    //print("Productos seleccionados" + selectedProduct.toString());
-
                                     productInfo(context, index);
-
                                     //pedidoRealizado.add(data[index].nombreProducto);
                                     //showDefaultSnackbar(context);
                                   },
@@ -83,9 +79,6 @@ class _PlatillosState extends State<Platillos> {
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: () {
-                            print(
-                                "Pedido realizado: " + pedidoRealizado.toString());
-
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -105,9 +98,6 @@ class _PlatillosState extends State<Platillos> {
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: () {
-                            print("Pedido realizado: " +
-                                pedidoRealizado.toString());
-
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -122,8 +112,6 @@ class _PlatillosState extends State<Platillos> {
   }
 
   void productInfo(BuildContext context, int productIndex) {
-    print("Index del producto seleccionado: " + productIndex.toString());
-
     showDialog(
         context: context,
         builder: (BuildContext context) {

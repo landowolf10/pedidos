@@ -166,4 +166,24 @@ class Dialogos {
       },
     );
   }
+
+  void noProductsInCartDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Carrito vacío"),
+          content: new Text("Favor de seleccionar producto(s) para realizar pedido."),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Aceptar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

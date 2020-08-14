@@ -30,7 +30,6 @@ dependencies:
   cupertino_icons: ^0.1.3
   http:
   firebase_messaging:
-  fluttertoast:
   flushbar:
 
 dev_dependencies:

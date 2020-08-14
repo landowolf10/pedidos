@@ -52,6 +52,13 @@ class ProductosState extends State<Productos>
     imagenPlatillo.clear();
     precioPlatillo.clear();
 
+    listaBebidas.clear();
+    listaPreciosBebidas.clear();
+    descripcionBebida.clear();
+    imagenBebida.clear();
+    precioBebida.clear();
+    cantidadBebida.clear();
+
     await obtenerPlatillos();
     await obtenerBebidas();
   }
@@ -107,7 +114,7 @@ class ProductosState extends State<Productos>
     }
   }
 
-  void showDefaultSnackbar(BuildContext context) {
+  /*void showDefaultSnackbar(BuildContext context) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text('Producto agregado al carrito'),
     ));
@@ -125,7 +132,7 @@ class ProductosState extends State<Productos>
         ),
       ),
     );*/
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

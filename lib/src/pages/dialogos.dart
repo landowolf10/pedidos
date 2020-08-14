@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 class Dialogos {
@@ -184,6 +185,26 @@ class Dialogos {
           ],
         );
       },
+    );
+  }
+
+  void showCartMessage(BuildContext context) {
+    Flushbar(
+      //title: "Hey Ninja",
+      message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.FLOATING,
+      reverseAnimationCurve: Curves.decelerate,
+      forwardAnimationCurve: Curves.elasticOut,
+      backgroundColor: Colors.red,
+      boxShadows: [BoxShadow(color: Colors.blue[800], offset: Offset(0.0, 2.0), blurRadius: 3.0)],
+      backgroundGradient: LinearGradient(colors: [Colors.blueGrey, Colors.black]),
+      isDismissible: false,
+      duration: Duration(seconds: 4),
+      icon: Icon(
+        Icons.check,
+        color: Colors.greenAccent,
+      ),
     );
   }
 }

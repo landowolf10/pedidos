@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/src/pages/carrito.dart';
+import 'package:pedidos/src/pages/dialogos.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
 class Platillos extends StatefulWidget {
@@ -135,6 +136,10 @@ class _PlatillosState extends State<Platillos> {
                     total += double.parse(precioPlatillo[productIndex]);
 
                     Navigator.of(context).pop();
+
+                    Dialogos dialogos = new Dialogos();
+
+                    dialogos.showCartMessage(context);
                     //showDefaultSnackbar(context);
                   })
             ],

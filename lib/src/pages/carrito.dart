@@ -144,6 +144,10 @@ class _CarritoState extends State<Carrito> {
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     onPressed: () {
+                      Dialogos dialogos = new Dialogos();
+
+                     dialogos.showCartMessage(context);
+
                       if(pedidoRealizado.isEmpty)
                       {
                         Dialogos dialogos = new Dialogos();

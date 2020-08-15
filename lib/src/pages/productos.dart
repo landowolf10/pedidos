@@ -30,6 +30,10 @@ List<String> precioBebida = new List<String>();
 List<int> cantidadPlatillo = new List<int>();
 List<int> cantidadBebida = new List<int>();
 
+
+
+List<Products> drinksList;
+
 class Productos extends StatefulWidget {
   @override
   ProductosState createState() => new ProductosState();
@@ -60,7 +64,7 @@ class ProductosState extends State<Productos>
     cantidadBebida.clear();
 
     await obtenerPlatillos();
-    await obtenerBebidas();
+    //await obtenerBebidas();
   }
 
   obtenerPlatillos() async {
@@ -87,7 +91,26 @@ class ProductosState extends State<Productos>
     }
   }
 
-  obtenerBebidas() async {
+  Future<List<Products>> obtenerBebidas() async {
+    var response = await http
+        .get("https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php");
+
+    if (response.statusCode == 200) {
+      List<dynamic> items = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
+
+      drinksList = items.map<Products>((json) {
+        return Products.fromJson(json);
+      }).toList();
+
+      //print(listOfProducts);
+    } 
+
+    return drinksList;
+  }
+
+  /*obtenerBebidas() async {
     var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php";
 
     final response = await http.get(url);
@@ -112,7 +135,7 @@ class ProductosState extends State<Productos>
 
       print(listaProductos);
     }
-  }
+  }*/
 
   /*void showDefaultSnackbar(BuildContext context) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(

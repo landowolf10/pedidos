@@ -190,8 +190,8 @@ class Dialogos {
 
   void showCartMessage(BuildContext context) {
     Flushbar(
-      //title: "Hey Ninja",
-      message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+      title: "Hey Ninja",
+      message: "Producto agregado al carrito",
       flushbarPosition: FlushbarPosition.TOP,
       flushbarStyle: FlushbarStyle.FLOATING,
       reverseAnimationCurve: Curves.decelerate,

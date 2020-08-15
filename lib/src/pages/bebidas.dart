@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/src/models/products_model.dart';
 import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
@@ -12,7 +13,9 @@ class Bebidas extends StatefulWidget {
 class _BebidasState extends State<Bebidas> {
   bool cargando;
 
-  @override
+  ProductosState prod = new ProductosState();
+
+  /*@override
   void initState() {
     if (listaBebidas.isEmpty)
       cargando = true;
@@ -20,7 +23,7 @@ class _BebidasState extends State<Bebidas> {
       cargando = false;
 
     super.initState();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +38,48 @@ class _BebidasState extends State<Bebidas> {
                   children: <Widget>[
                     SizedBox(
                       height: 500,
-                      child: cargando
+                      child: /*cargando
                           ? Container(
                               child: Text("No hay bebidas en el menú",
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 18,
                                   )))
-                          : ListView.builder(
+                          : */
+                            FutureBuilder(
+                              future: prod.obtenerBebidas(),
+                              builder: (BuildContext context, AsyncSnapshot<List<Products>> snapshot) {
+                                if (!snapshot.hasData)
+                                  return CircularProgressIndicator();
+
+                                var values = snapshot.data;
+
+                                return ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index){
+                                    return ListTile(
+                                      title: Text(values[index].nombreProducto,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20,
+                                          )),
+                                      subtitle: Text(values[index].precioProducto,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20,
+                                          )),
+                                      trailing: Image.network(values[index].imagenProducto),
+                                      onTap: () {
+                                        productInfo(context, index);
+                                        //pedidoRealizado.add(data[index].nombreProducto);
+                                        //showDefaultSnackbar(context);
+                                      },
+                                    );
+                                  }
+                                );
+                              },
+                            )
+                          /*ListView.builder(
                               itemCount: listaBebidas.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
@@ -63,7 +100,7 @@ class _BebidasState extends State<Bebidas> {
                                     //showDefaultSnackbar(context);
                                   },
                                 );
-                              }),
+                              })*/,
                     ),
                     ButtonTheme(
                       minWidth: 200.0,

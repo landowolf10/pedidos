@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/src/models/products_model.dart';
 import 'package:pedidos/src/pages/carrito.dart';
-import 'package:pedidos/src/pages/dialogos.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
 class Platillos extends StatefulWidget {
@@ -12,16 +12,11 @@ class Platillos extends StatefulWidget {
 
 class _PlatillosState extends State<Platillos> {
   bool cargando;
+  int dishIndex;
+  List<String> listaPlatillos = new List<String>();
+  List<String> precioPlatillos = new List<String>();
 
-  @override
-  void initState() {
-    if (listaPlatillos.isEmpty)
-      cargando = true;
-    else
-      cargando = false;
-
-    super.initState();
-  }
+  ProductosState prod = new ProductosState();
 
   @override
   Widget build(BuildContext context) {
@@ -36,36 +31,53 @@ class _PlatillosState extends State<Platillos> {
                   children: <Widget>[
                     SizedBox(
                       height: 500,
-                      child: cargando
-                          ? Container(
-                              child: Text("No hay platillos en el menú",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 18,
-                                  )))
-                          : ListView.builder(
-                              itemCount: listaPlatillos.length,
+                      child: FutureBuilder(
+                        future: prod.obtenerPlatillos(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Products>> snapshot) {
+                          if (!snapshot.hasData)
+                            return CircularProgressIndicator();
+
+                          var values = snapshot.data;
+
+                          return ListView.builder(
+                              itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
+                                listaPlatillos
+                                    .add(values[index].nombreProducto);
+
+                                precioPlatillos
+                                    .add(values[index].precioProducto);
+
+                                cantidadProducto.add(1);
+
+                                //print("Lista platillos: " +
+                                //listaPlatillos.toString());
+
                                 return ListTile(
-                                  title: Text(listaPlatillos[index],
+                                  title: Text(values[index].nombreProducto,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  subtitle: Text(listaPreciosPlatillos[index],
+                                  subtitle: Text(values[index].precioProducto,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  trailing:
-                                      Image.network(imagenPlatillo[index]),
+                                  trailing: Image.network(
+                                      values[index].imagenProducto),
                                   onTap: () {
-                                    productInfo(context, index);
+                                    dishIndex = index;
+
+                                    productInfo(context);
                                     //pedidoRealizado.add(data[index].nombreProducto);
                                     //showDefaultSnackbar(context);
                                   },
                                 );
-                              }),
+                              });
+                        },
+                      ),
                     ),
                     ButtonTheme(
                       minWidth: 200.0,
@@ -112,15 +124,17 @@ class _PlatillosState extends State<Platillos> {
             )));
   }
 
-  void productInfo(BuildContext context, int productIndex) {
+  void productInfo(BuildContext context) {
+    print("Índice del platillo: " + dishIndex.toString());
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(listaPlatillos[productIndex]),
-            content: Text(descripcionPlatillo[productIndex]),
+            title: Text(listaPlatillos[dishIndex]),
+            //content: Text(descripcionPlatillo[productIndex]),
             actions: <Widget>[
-              Image.network(imagenPlatillo[productIndex]),
+              //Image.network(imagenPlatillo[productIndex]),
               FlatButton(
                 child: Text("Cerrar"),
                 onPressed: () {
@@ -130,16 +144,16 @@ class _PlatillosState extends State<Platillos> {
               FlatButton(
                   child: Text("Agregar al carrito"),
                   onPressed: () {
-                    pedidoRealizado.add(listaPlatillos[productIndex]);
-                    precioProducto.add(precioPlatillo[productIndex]);
+                    pedidoRealizado.add(listaPlatillos[dishIndex]);
+                    precioProducto.add(precioPlatillos[dishIndex]);
 
-                    total += double.parse(precioPlatillo[productIndex]);
+                    total += double.parse(precioPlatillos[dishIndex]);
 
                     Navigator.of(context).pop();
 
-                    Dialogos dialogos = new Dialogos();
+                    //Dialogos dialogos = new Dialogos();
 
-                    dialogos.showCartMessage(context);
+                    //dialogos.showCartMessage(context);
                     //showDefaultSnackbar(context);
                   })
             ],

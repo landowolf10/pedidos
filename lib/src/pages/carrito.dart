@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:pedidos/src/pages/dialogos.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
+List<String> pedidoRealizado = new List<String>();
+List<int> cantidadProducto = new List<int>();
+
 double total = 0;
 
 class Carrito extends StatefulWidget {
@@ -48,7 +51,7 @@ class _CarritoState extends State<Carrito> {
                         itemBuilder: (BuildContext ctxt, int index) {
                           final item = pedidoRealizado[index];
                           final price = precioProducto[index];
-                          final amount = cantidadPlatillo[index];
+                          final amount = cantidadProducto[index];
 
                           return Dismissible(
                             key: Key(item),
@@ -56,9 +59,7 @@ class _CarritoState extends State<Carrito> {
                               setState(() {
                                 pedidoRealizado.removeAt(index);
                                 precioProducto.removeAt(index);
-                                cantidadPlatillo.removeAt(index);
-
-                                print("Cantidad removida: " + cantidadPlatillo[index].toString());
+                                cantidadProducto.removeAt(index);
 
                                 total = total - double.parse(price) * amount;
 
@@ -95,7 +96,8 @@ class _CarritoState extends State<Carrito> {
                                     ),
                                   ],
                                 ),
-                                subtitle: Text(cantidadPlatillo[index].toString()),
+                                subtitle:
+                                    Text(cantidadProducto[index].toString()),
                                 trailing: Text(precioProducto[index]),
                                 onTap: () {
                                   productIndex = index;
@@ -114,21 +116,20 @@ class _CarritoState extends State<Carrito> {
                 minWidth: 200.0,
                 height: 44.0,
                 child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.red,
-                  child: Text(
-                    'Regresar al menú',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext ctx) => Productos()));
-                        }
-                ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.red,
+                    child: Text(
+                      'Regresar al menú',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => Productos()));
+                    }),
               ),
               SizedBox(height: 20),
               ButtonTheme(
@@ -146,15 +147,12 @@ class _CarritoState extends State<Carrito> {
                     onPressed: () {
                       Dialogos dialogos = new Dialogos();
 
-                     dialogos.showCartMessage(context);
+                      dialogos.showCartMessage(context);
 
-                      if(pedidoRealizado.isEmpty)
-                      {
+                      if (pedidoRealizado.isEmpty) {
                         Dialogos dialogos = new Dialogos();
                         dialogos.noProductsInCartDialog(context);
-                      }
-                      else
-                      {
+                      } else {
                         print("Pedido: " + pedidoRealizado.toString());
                         print("Lista precios: " + precioProducto.toString());
 
@@ -211,11 +209,11 @@ class _CarritoState extends State<Carrito> {
                       else
                         cantidad = 1;
 
-                      cantidadPlatillo[productIndex] = cantidad;
+                      cantidadProducto[productIndex] = cantidad;
 
                       total = (total +
                               (double.parse(precioProducto[productIndex]) *
-                                  cantidadPlatillo[productIndex])) -
+                                  cantidadProducto[productIndex])) -
                           double.parse(precioProducto[productIndex]);
 
                       //listaTotal[productIndex] = total;

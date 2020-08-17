@@ -8,31 +8,7 @@ import 'package:pedidos/src/pages/bebidas.dart';
 import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/platillos.dart';
 
-String pedido = "";
-
-List<String> pedidoRealizado = new List<String>();
 List<String> precioProducto = new List<String>();
-
-List<String> listaEntradas = new List<String>();
-List<String> listaPlatillos = new List<String>();
-List<String> listaBebidas = new List<String>();
-List<String> listaPostres = new List<String>();
-
-List<String> listaPreciosPlatillos = new List<String>();
-List<String> listaPreciosBebidas = new List<String>();
-List<String> descripcionPlatillo = new List<String>();
-List<String> descripcionBebida = new List<String>();
-List<String> imagenPlatillo = new List<String>();
-List<String> imagenBebida = new List<String>();
-List<String> precioPlatillo = new List<String>();
-List<String> precioBebida = new List<String>();
-
-List<int> cantidadPlatillo = new List<int>();
-List<int> cantidadBebida = new List<int>();
-
-
-
-List<Products> drinksList;
 
 class Productos extends StatefulWidget {
   @override
@@ -43,31 +19,24 @@ class ProductosState extends State<Productos>
     with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  @override
+  List<Products> drinksList;
+  List<Products> dishesList;
+
+  /*@override
   void initState() {
     initialization();
     super.initState();
   }
 
   initialization() async {
-    listaPlatillos.clear();
-    listaPreciosPlatillos.clear();
-    descripcionPlatillo.clear();
-    imagenPlatillo.clear();
-    precioPlatillo.clear();
 
     listaBebidas.clear();
-    listaPreciosBebidas.clear();
-    descripcionBebida.clear();
-    imagenBebida.clear();
-    precioBebida.clear();
-    cantidadBebida.clear();
 
     await obtenerPlatillos();
     //await obtenerBebidas();
-  }
+  }*/
 
-  obtenerPlatillos() async {
+  /*obtenerPlatillos() async {
     var url =
         "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php";
 
@@ -89,6 +58,25 @@ class ProductosState extends State<Productos>
         cantidadPlatillo.add(1);
       }
     }
+  }*/
+
+  Future<List<Products>> obtenerPlatillos() async {
+    var response = await http.get(
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php");
+
+    if (response.statusCode == 200) {
+      List<dynamic> items = json
+          .decode(utf8.decode(response.bodyBytes))
+          .cast<Map<String, dynamic>>();
+
+      dishesList = items.map<Products>((json) {
+        return Products.fromJson(json);
+      }).toList();
+
+      //print(listOfProducts);
+    }
+
+    return dishesList;
   }
 
   Future<List<Products>> obtenerBebidas() async {
@@ -105,7 +93,7 @@ class ProductosState extends State<Productos>
       }).toList();
 
       //print(listOfProducts);
-    } 
+    }
 
     return drinksList;
   }
@@ -186,13 +174,18 @@ class ProductosState extends State<Productos>
                           color: Colors.red,
                           child: Column(
                             children: [
-                              Image.asset("icons/entradas.png", width: 80, height: 80,),
+                              Image.asset(
+                                "icons/entradas.png",
+                                width: 80,
+                                height: 80,
+                              ),
                               Text(
                                 'Entradas',
-                                style: TextStyle(fontSize: 20, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ],
-                          ), 
+                          ),
                           onPressed: () {}),
                     ),
                     SizedBox(width: 50),
@@ -206,10 +199,15 @@ class ProductosState extends State<Productos>
                           color: Colors.red,
                           child: Column(
                             children: [
-                              Image.asset("icons/platillos.png", width: 80, height: 80,),
+                              Image.asset(
+                                "icons/platillos.png",
+                                width: 80,
+                                height: 80,
+                              ),
                               Text(
                                 'Platillos',
-                                style: TextStyle(fontSize: 20, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ],
                           ),
@@ -238,10 +236,15 @@ class ProductosState extends State<Productos>
                           color: Colors.red,
                           child: Column(
                             children: [
-                              Image.asset("icons/bebidas.png", width: 80, height: 80,),
+                              Image.asset(
+                                "icons/bebidas.png",
+                                width: 80,
+                                height: 80,
+                              ),
                               Text(
                                 'Bebidas',
-                                style: TextStyle(fontSize: 20, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ],
                           ),
@@ -263,10 +266,15 @@ class ProductosState extends State<Productos>
                           color: Colors.red,
                           child: Column(
                             children: [
-                              Image.asset("icons/postres.png", width: 80, height: 80,),
+                              Image.asset(
+                                "icons/postres.png",
+                                width: 80,
+                                height: 80,
+                              ),
                               Text(
                                 'Postres',
-                                style: TextStyle(fontSize: 20, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ],
                           ),
@@ -287,9 +295,6 @@ class ProductosState extends State<Productos>
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        print(
-                            "Pedido realizado: " + pedidoRealizado.toString());
-
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

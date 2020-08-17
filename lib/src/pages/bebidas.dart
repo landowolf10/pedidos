@@ -12,18 +12,11 @@ class Bebidas extends StatefulWidget {
 
 class _BebidasState extends State<Bebidas> {
   bool cargando;
+  int drinkIndex;
+  List<String> listaBebidas = new List<String>();
+  List<String> precioBebidas = new List<String>();
 
   ProductosState prod = new ProductosState();
-
-  /*@override
-  void initState() {
-    if (listaBebidas.isEmpty)
-      cargando = true;
-    else
-      cargando = false;
-
-    super.initState();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -38,69 +31,48 @@ class _BebidasState extends State<Bebidas> {
                   children: <Widget>[
                     SizedBox(
                       height: 500,
-                      child: /*cargando
-                          ? Container(
-                              child: Text("No hay bebidas en el menú",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 18,
-                                  )))
-                          : */
-                            FutureBuilder(
-                              future: prod.obtenerBebidas(),
-                              builder: (BuildContext context, AsyncSnapshot<List<Products>> snapshot) {
-                                if (!snapshot.hasData)
-                                  return CircularProgressIndicator();
+                      child: FutureBuilder(
+                        future: prod.obtenerBebidas(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Products>> snapshot) {
+                          if (!snapshot.hasData)
+                            return CircularProgressIndicator();
 
-                                var values = snapshot.data;
+                          var values = snapshot.data;
 
-                                return ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, index){
-                                    return ListTile(
-                                      title: Text(values[index].nombreProducto,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20,
-                                          )),
-                                      subtitle: Text(values[index].precioProducto,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20,
-                                          )),
-                                      trailing: Image.network(values[index].imagenProducto),
-                                      onTap: () {
-                                        productInfo(context, index);
-                                        //pedidoRealizado.add(data[index].nombreProducto);
-                                        //showDefaultSnackbar(context);
-                                      },
-                                    );
-                                  }
-                                );
-                              },
-                            )
-                          /*ListView.builder(
-                              itemCount: listaBebidas.length,
+                          return ListView.builder(
+                              itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
+                                listaBebidas.add(values[index].nombreProducto);
+
+                                precioBebidas.add(values[index].precioProducto);
+
+                                cantidadProducto.add(1);
+
                                 return ListTile(
-                                  title: Text(listaBebidas[index],
+                                  title: Text(values[index].nombreProducto,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  subtitle: Text(listaPreciosBebidas[index],
+                                  subtitle: Text(values[index].precioProducto,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  trailing: Image.network(imagenBebida[index]),
+                                  trailing: Image.network(
+                                      values[index].imagenProducto),
                                   onTap: () {
-                                    productInfo(context, index);
+                                    drinkIndex = index;
+
+                                    productInfo(context);
                                     //pedidoRealizado.add(data[index].nombreProducto);
                                     //showDefaultSnackbar(context);
                                   },
                                 );
-                              })*/,
+                              });
+                        },
+                      ),
                     ),
                     ButtonTheme(
                       minWidth: 200.0,
@@ -147,17 +119,15 @@ class _BebidasState extends State<Bebidas> {
             )));
   }
 
-  void productInfo(BuildContext context, int productIndex) {
-    print("Index del producto seleccionado: " + productIndex.toString());
-
+  void productInfo(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(listaBebidas[productIndex]),
-            content: Text(descripcionBebida[productIndex]),
+            title: Text(listaBebidas[drinkIndex]),
+            //content: Text(descripcionBebida[productIndex]),
             actions: <Widget>[
-              Image.network(imagenBebida[productIndex]),
+              //Image.network(imagenBebida[productIndex]),
               FlatButton(
                 child: Text("Cerrar"),
                 onPressed: () {
@@ -167,10 +137,10 @@ class _BebidasState extends State<Bebidas> {
               FlatButton(
                   child: Text("Agregar al carrito"),
                   onPressed: () {
-                    pedidoRealizado.add(listaBebidas[productIndex]);
-                    precioProducto.add(precioBebida[productIndex]);
+                    pedidoRealizado.add(listaBebidas[drinkIndex]);
+                    precioProducto.add(precioBebidas[drinkIndex]);
 
-                    total += double.parse(precioBebida[productIndex]);
+                    total += double.parse(precioBebidas[drinkIndex]);
 
                     Navigator.of(context).pop();
                     //showDefaultSnackbar(context);

@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/login.dart';
-import 'package:pedidos/src/pages/productos3.dart';
+import 'package:http/http.dart' as http;
+import 'package:pedidos/src/pages/productos.dart';
 
 class Products {
   String nombreProducto;
@@ -23,14 +26,34 @@ class Products {
 
   Map<String, dynamic> toJson() {
     return {
-      "pedido_realizado": pedidoRealizado,
-      "total_pagar": total,
-      "id_cliente": idUsuario,
-      /*"nombre_cliente": listaTipoPago,
-      "colonia": listaTipoCliente,
-      "calle": listaTPV,
-      "numero": listaTPV,
-      "estatus": listaTPV*/
+      "pedido": pedidoFinal,
+      "total": total,
+      "id_c": idUsuario,
+      "nombre": nombreCliente,
+      "telefono": telefonoCliente,
+      "colonia": coloniaCliente,
+      "calle": calleCliente,
+      "numero": numeroCalle,
+      "estatus_p": 1
     };
   }
+
+  void realizarPedido() async {
+    var url =
+        "https://pruebasbotanax.000webhostapp.com/Pedidos/realizarPedido.php";
+
+    final response = await http.post(url, body: {
+      "pedido": pedidoFinal,
+      "total": total.toString(),
+      "id_c": idUsuario.toString(),
+      "nombre": nombreCliente,
+      "telefono": telefonoCliente,
+      "colonia": coloniaCliente,
+      "calle": calleCliente,
+      "numero": numeroCalle,
+      "estatus_p": 1.toString()
+    });
+
+    print("Respuesta: " + response.body);
+  } 
 }

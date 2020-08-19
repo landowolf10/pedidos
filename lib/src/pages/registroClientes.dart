@@ -27,8 +27,6 @@ class RegistrarClientesState extends State<RegistrarClientes>
   TextEditingController numeroController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
 
-  GetIDUsuario idUsuario = new GetIDUsuario();
-
   bool respuesta = false;
   int credito = 0;
 
@@ -327,7 +325,6 @@ class RegistrarClientesState extends State<RegistrarClientes>
                 color: Colors.red,
                 child: Text('REGISTRAR', style: TextStyle(color: Colors.white)),
                 onPressed: () async {
-                  print("Prueba " + idUsuario.getID().toString());
                   print(respuesta);
 
                   Dialogos dialogo = new Dialogos();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pedidos/src/models/products_model.dart';
 import 'package:pedidos/src/pages/dialogos.dart';
 import 'package:pedidos/src/pages/login.dart';
 import 'package:pedidos/src/pages/productos.dart';
@@ -8,7 +9,7 @@ List<String> pedidoRealizado = new List<String>();
 List<int> cantidadProducto = new List<int>();
 
 double total = 0;
-String pedido = "";
+String pedidoString = "", pedidoFinal = "";
 
 class Carrito extends StatefulWidget {
   Carrito({Key key}) : super(key: key);
@@ -155,16 +156,17 @@ class _CarritoState extends State<Carrito> {
                         Dialogos dialogos = new Dialogos();
                         dialogos.noProductsInCartDialog(context);
                       } else {
-                        for(int i = 0; i < pedidoRealizado.length; i++)
-                        {
-                          pedido = pedido + pedidoRealizado[i] + ", ";
-                        }
+                        pedidoString = "";
 
-                        print("Pedido: " + pedido);
-                        print("Lista precios: " + precioProducto.toString());
-                        print("ID usuario: " + idUsuario.toString());
+                        for(int i = 0; i < pedidoRealizado.length; i++)
+                          pedidoString = pedidoString + pedidoRealizado[i] + ", ";
+
+                        pedidoFinal = pedidoString.substring(0, pedidoString.length - 2);
 
                         print("Total: " + total.toString());
+
+                        Products prod = new Products();
+                        prod.realizarPedido();
                       }
                     }),
               ),

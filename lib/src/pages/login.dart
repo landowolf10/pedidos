@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dialogos.dart';
 
 int idUsuario, state = 0;
-String tipoUsuario, nombreUsuario, telefonoUsuario;
+String nombreCliente, telefonoCliente, coloniaCliente, calleCliente, numeroCalle;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -79,14 +79,11 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 datauser[0]["pass"] == pass.text &&
                 datauser[0]["tipo_usuario"] == "Cliente") {
               idUsuario = int.parse(datauser[0]["id"]);
-
-              nombreUsuario = datauser[0]["nombre"] +
-                  " " +
-                  datauser[0]["apellido_paterno"] +
-                  " " +
-                  datauser[0]["apellido_materno"];
-
-              telefonoUsuario = datauser[0]["telefono"];
+              nombreCliente = datauser[0]["nombre"] + " " + datauser[0]["apellido_paterno"] + " " + datauser[0]["apellido_materno"];
+              telefonoCliente = datauser[0]["telefono"];
+              coloniaCliente = datauser[0]["colonia"];
+              calleCliente = datauser[0]["calle"];
+              numeroCalle = datauser[0]["numero"];
 
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (BuildContext ctx) => Productos()));
@@ -314,21 +311,5 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         });
       }
     });
-  }
-}
-
-class GetIDUsuario {
-  int getID() {
-    return idUsuario;
-  }
-
-  String getNombreUsuario() {
-    return nombreUsuario;
-  }
-}
-
-class GetTipoUsuario {
-  String getTipoUsuario() {
-    return tipoUsuario;
   }
 }

@@ -216,3 +216,24 @@ BEGIN
     WHERE p.categoria = 'Postre';
 END//
 DELIMITER ;
+
+
+
+10. Procedimiento almacenado para obtener el id del pedido realizado de un cliente.
+DELIMITER //
+CREATE PROCEDURE pedido_id
+(
+    IN nombre VARCHAR(100),
+    IN pedido VARCHAR(500)
+)
+BEGIN
+    SELECT sp.estatus
+    FROM status_pedido AS sp
+    WHERE sp.nombre_cliente = nombre 
+    AND sp.pedido_realizado = pedido
+    ORDER BY sp.id LIMIT 1;
+END//
+DELIMITER ;
+
+CALL pedido_id('Luis Orlando Avila Garcia', 'Rib eye 300g termino medio')
+CALL pedido_id('Luis Orlando Avila Garcia', 'Pasta, Tiritas de pescado, Yoli')

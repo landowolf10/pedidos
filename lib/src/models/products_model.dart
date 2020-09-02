@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/login.dart';
 import 'package:http/http.dart' as http;
-import 'package:pedidos/src/pages/productos.dart';
 
 class Products {
   String nombreProducto;

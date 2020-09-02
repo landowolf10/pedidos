@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pedidos/src/models/products_model.dart';
 import 'package:pedidos/src/pages/dialogos.dart';
-import 'package:pedidos/src/pages/login.dart';
+import 'package:pedidos/src/pages/pedido_status_screen.dart';
 import 'package:pedidos/src/pages/productos.dart';
 
 List<String> pedidoRealizado = new List<String>();
@@ -167,6 +167,11 @@ class _CarritoState extends State<Carrito> {
 
                         Products prod = new Products();
                         prod.realizarPedido();
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext ctx) => Status()));
                       }
                     }),
               ),

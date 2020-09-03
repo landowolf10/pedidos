@@ -53,5 +53,13 @@ class Products {
     });
 
     print("Respuesta: " + response.body);
-  } 
+  }
+
+  void sendPush() async {
+    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/push.php";
+
+    final response = await http.post(url, body: {"": ""});
+
+    print("Respuesta: " + response.body);
+  }
 }

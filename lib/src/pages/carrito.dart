@@ -167,6 +167,7 @@ class _CarritoState extends State<Carrito> {
 
                         Products prod = new Products();
                         prod.realizarPedido();
+                        prod.sendPush();
 
                         Navigator.pushReplacement(
                           context,

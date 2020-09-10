@@ -61,6 +61,8 @@ class Products {
     final response = await http.post(url, body: {
       "nombre": nombreCliente,
       "pedido": pedidoFinal,
+      "cantidad":
+          cantidadProducto.toString().replaceAll("[", "").replaceAll("]", ""),
       "telefono": telefonoCliente,
       "colonia": coloniaCliente,
       "calle": calleCliente,

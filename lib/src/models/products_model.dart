@@ -58,8 +58,15 @@ class Products {
   void sendPush() async {
     var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/push.php";
 
-    final response = await http.post(url, body: {"": ""});
+    final response = await http.post(url, body: {
+      "nombre": nombreCliente,
+      "pedido": pedidoFinal,
+      "telefono": telefonoCliente,
+      "colonia": coloniaCliente,
+      "calle": calleCliente,
+      "numero": numeroCalle
+    });
 
-    print("Respuesta: " + response.body);
+    print("Respuesta push: " + response.body);
   }
 }

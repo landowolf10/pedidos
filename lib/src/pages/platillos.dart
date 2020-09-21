@@ -31,10 +31,12 @@ class _PlatillosState extends State<Platillos> {
                   children: <Widget>[
                     SizedBox(
                       height: 500,
-                      child: FutureBuilder(
+                      child: FutureBuilder<List<Products>>(
                         future: prod.obtenerPlatillos(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Products>> snapshot) {
+                        builder: (context, snapshot) {
+                          print("SNAPSHOT: " + snapshot.hasData.toString());
+                          print("Snapshot Error: " + snapshot.error.toString());
+
                           if (!snapshot.hasData)
                             return CircularProgressIndicator();
 
@@ -46,8 +48,8 @@ class _PlatillosState extends State<Platillos> {
                                 listaPlatillos
                                     .add(values[index].nombreProducto);
 
-                                precioPlatillos
-                                    .add(values[index].precioProducto);
+                                precioPlatillos.add(
+                                    values[index].precioProducto.toString());
 
                                 cantidadProducto.add(1);
 
@@ -60,7 +62,8 @@ class _PlatillosState extends State<Platillos> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  subtitle: Text(values[index].precioProducto,
+                                  subtitle: Text(
+                                      values[index].precioProducto.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,

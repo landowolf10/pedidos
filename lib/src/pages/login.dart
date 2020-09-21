@@ -9,7 +9,11 @@ import 'dart:io';
 import 'dialogos.dart';
 
 int idUsuario, state = 0;
-String nombreCliente, telefonoCliente, coloniaCliente, calleCliente, numeroCalle;
+String nombreCliente,
+    telefonoCliente,
+    coloniaCliente,
+    calleCliente,
+    numeroCalle;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,13 +62,15 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final result = await InternetAddress.lookup("www.google.com");
 
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        final response = await http.post(
-            "https://pruebasbotanax.000webhostapp.com/Pedidos/login.php",
-            body: {
+        final response = await http.post("http://10.0.2.2:5000/login",
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: jsonEncode(<String, String>{
               "email": user.text,
               "pass": pass.text,
               "firebase_token": firebaseToken
-            });
+            }));
 
         //print("Response: " + response.statusCode.toString());
         //print(response.body);
@@ -72,21 +78,27 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         if (response.statusCode == 200) {
           var datauser = json.decode(response.body);
 
-          print(datauser);
+          //print("DATA: " + datauser.toString());
 
           if (!datauser.isEmpty) {
-            if (datauser[0]["email"] == user.text &&
-                datauser[0]["pass"] == pass.text &&
-                datauser[0]["tipo_usuario"] == "Cliente") {
-              idUsuario = int.parse(datauser[0]["id"]);
-              nombreCliente = datauser[0]["nombre"] + " " + datauser[0]["apellido_paterno"] + " " + datauser[0]["apellido_materno"];
-              telefonoCliente = datauser[0]["telefono"];
-              coloniaCliente = datauser[0]["colonia"];
-              calleCliente = datauser[0]["calle"];
-              numeroCalle = datauser[0]["numero"];
+            if (datauser["email"] == user.text &&
+                datauser["pass"] == pass.text &&
+                datauser["tipo_usuario"] == "Cliente") {
+              idUsuario = datauser["id"];
+              nombreCliente = datauser["nombre"] +
+                  " " +
+                  datauser["apellido_paterno"] +
+                  " " +
+                  datauser["apellido_materno"];
+              telefonoCliente = datauser["telefono"];
+              coloniaCliente = datauser["colonia"];
+              calleCliente = datauser["calle"];
+              numeroCalle = datauser["numero"];
 
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (BuildContext ctx) => Productos()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext ctx) => Productos()));
             } else {
               Dialogos dialog = new Dialogos();
               dialog.noPermissionDialog(context);

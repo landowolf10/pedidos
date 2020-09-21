@@ -237,3 +237,250 @@ DELIMITER ;
 
 CALL pedido_id('Luis Orlando Avila Garcia', 'Rib eye 300g termino medio')
 CALL pedido_id('Luis Orlando Avila Garcia', 'Pasta, Tiritas de pescado, Yoli')
+
+
+
+11. Procedimiento almacenado para actualizar los datos de los usuarios:
+DELIMITER //
+CREATE PROCEDURE update_user
+(
+    IN id_usuario			INT,
+    IN email_usuario 	 	VARCHAR(100),
+    IN nombre_usuario 	 	VARCHAR(30),
+    IN ap 	 				VARCHAR(30),
+    IN am 	 				VARCHAR(30),
+    IN telefono_usuario 	VARCHAR(10),
+    IN estado_usuario 		VARCHAR(30),
+    IN ciudad_usuario 	 	VARCHAR(30),
+    IN colonia_usuario 	 	VARCHAR(30),
+    IN calle_usuario 	 	VARCHAR(30),
+    IN numero_usuario 	 	VARCHAR(30),
+    IN pass_usuario 	 	VARCHAR(20),
+    IN tipo 	 			VARCHAR(30),
+    IN token 	 			VARCHAR(200)
+)
+BEGIN
+	IF email_usuario IS NOT NULL THEN
+    	UPDATE usuarios
+        SET email = email_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+	IF nombre_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET nombre = nombre_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+	IF ap IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET apellido_paterno = ap
+        WHERE id = id_usuario;
+    END IF;
+    
+	IF am IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET apellido_materno = am
+        WHERE id = id_usuario;
+    END IF;
+    
+	IF telefono_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET telefono = telefono_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF estado_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET estado = estado_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF ciudad_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET ciudad = ciudad_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF colonia_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET colonia = colonia_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF calle_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET calle = calle_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF numero_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET numero = numero_usuario
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF pass_usuario IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET pass = pass_usuario
+        WHERE id = id_usuario;
+    END IF;
+
+    IF tipo IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET tipo_usuario = tipo
+        WHERE id = id_usuario;
+    END IF;
+    
+    IF token IS NOT NULL THEN
+    	UPDATE usuarios 
+        SET firebase_token = token
+        WHERE id = id_usuario;
+    END IF;
+END//
+DELIMITER ;
+
+
+
+
+12. Procedimiento almacenado para eliminar usuarios:
+DELIMITER //
+CREATE PROCEDURE delete_user
+(
+    IN id_usuario			INT
+)
+BEGIN
+	DELETE FROM usuarios
+    WHERE id = id_usuario;
+END//
+DELIMITER ;
+
+
+
+
+13. Procedimiento almacenado para actualizar producto:
+DELIMITER //
+CREATE PROCEDURE update_product
+(
+    IN id_producto			INT,
+    IN nombre_producto 	 	VARCHAR(300),
+    IN categoria_producto 	VARCHAR(100),
+    IN precio_producto 	 	DECIMAL(10, 2),
+    IN imagen_producto 	 	VARCHAR(200),
+    IN desc_producto 		VARCHAR(500)
+)
+BEGIN
+	IF nombre_producto IS NOT NULL THEN
+    	UPDATE productos
+        SET nombre = nombre_producto
+        WHERE id = id_producto;
+    END IF;
+    
+	IF categoria_producto IS NOT NULL THEN
+    	UPDATE productos 
+        SET categoria = categoria_producto
+        WHERE id = id_producto;
+    END IF;
+    
+	IF precio_producto IS NOT NULL THEN
+    	UPDATE productos 
+        SET precio = precio_producto
+        WHERE id = id_producto;
+    END IF;
+    
+	IF imagen_producto IS NOT NULL THEN
+    	UPDATE productos 
+        SET imagen = imagen_producto
+        WHERE id = id_producto;
+    END IF;
+    
+	IF desc_producto IS NOT NULL THEN
+    	UPDATE productos 
+        SET descripcion = desc_producto
+        WHERE id = id_producto;
+    END IF;
+END//
+DELIMITER ;
+
+
+
+
+14. Procedimiento almacenado para eliminar producto:
+DELIMITER //
+CREATE PROCEDURE delete_product
+(
+    IN id_producto	INT
+)
+BEGIN
+	DELETE FROM productos
+    WHERE id = id_producto;
+END//
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Procedimiento almacenado para obtener todas las imagenes (Minitourist):
+DELIMITER //
+CREATE PROCEDURE spGetImages
+()
+BEGIN
+	SELECT p.imagen
+    FROM productos AS p;
+END//
+DELIMITER ;
+
+
+
+
+
+
+    """try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.callproc('spGetImages')
+        rows = cursor.fetchall()
+        resp = jsonify(rows)
+        resp.status_code = 200
+
+        images = []
+
+        for i in rows:
+            images.append(i)
+
+        print(images)"""
+
+    image_names = os.listdir('./images')
+    print(image_names)
+    #render_template('carousel.html', image_name = image_names)
+        
+        """return render_template('carousel.html', image = images)
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()"""

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class Products {
   String nombreProducto;
-  String precioProducto;
+  double precioProducto;
   String imagenProducto;
   String descripcionProducto;
 

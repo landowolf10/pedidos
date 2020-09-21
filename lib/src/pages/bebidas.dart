@@ -45,7 +45,7 @@ class _BebidasState extends State<Bebidas> {
                               itemBuilder: (context, index) {
                                 listaBebidas.add(values[index].nombreProducto);
 
-                                precioBebidas.add(values[index].precioProducto);
+                                //precioBebidas.add(values[index].precioProducto);
 
                                 cantidadProducto.add(1);
 
@@ -55,11 +55,11 @@ class _BebidasState extends State<Bebidas> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  subtitle: Text(values[index].precioProducto,
+                                  /*subtitle: Text(values[index].precioProducto,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
-                                      )),
+                                      )),*/
                                   trailing: Image.network(
                                       values[index].imagenProducto),
                                   onTap: () {

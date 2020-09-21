@@ -21,6 +21,7 @@ class ProductosState extends State<Productos>
 
   List<Products> drinksList;
   List<Products> dishesList;
+  //List data;
 
   /*@override
   void initState() {
@@ -60,20 +61,114 @@ class ProductosState extends State<Productos>
     }
   }*/
 
-  Future<List<Products>> obtenerPlatillos() async {
-    var response = await http.get(
-        "https://pruebasbotanax.000webhostapp.com/Pedidos/getPlatillos.php");
+  /*Future<List<Products>> obtenerPlatillos() async {
+    var response = await http.get("http://10.0.2.2:5000/platillos");
 
     if (response.statusCode == 200) {
-      List<dynamic> items = json
-          .decode(utf8.decode(response.bodyBytes))
-          .cast<Map<String, dynamic>>();
+      //print(response.body);
 
-      dishesList = items.map<Products>((json) {
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        List<Products> responses =
+            data.map((j) => Products.fromJson(j)).toList();
+
+        dishesList = responses;
+
+        /*List<dynamic> items = json
+            .decode(utf8.decode(response.bodyBytes))
+            .cast<Map<String, dynamic>>();
+
+        dishesList = items.map<Products>((json) {
+          return Products.fromJson(json);
+        }).toList();*/
+
+        //print(listOfProducts);
+      }
+
+      //print(listOfProducts);
+    }
+
+    return dishesList;
+  }*/
+
+  /*Future<Products> obtenerPlatillos() async {
+    final response = await http.get('http://10.0.2.2:5000/platillos');
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Products.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }*/
+
+  /*Future<List<Products>> obtenerPlatillos() async {
+    final uri = 'http://10.0.2.2:5000/platillos';
+    final response =
+        await http.get(uri, headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+
+      print(jsonResponse);
+
+      return jsonResponse.map((item) => new Products.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load jobs from API');
+    }
+  }*/
+
+  /*Future<List<Products>> obtenerPlatillos() async {
+    final uri = 'http://10.0.2.2:5000/platillos';
+    var response = await http.get(uri);
+
+    //print(response.body);
+
+    print("STATUS CODE: " + response.statusCode.toString());
+
+    if (response.statusCode == 200) {
+      final items = json.decode(response.body) as List<dynamic>;
+
+      print(items);
+      print("SI ENTRA");
+
+      //print("ITEMS: " + items);
+
+      /*dishesList = items.map<Products>((json) {
         return Products.fromJson(json);
       }).toList();
 
-      //print(listOfProducts);
+      print("dishesList: " + dishesList.toString());*/
+
+      /*dishesList = jsonDecode(response.body)
+          .map((item) => Products.fromJson(item))
+          .toList()
+          .cast<Products>();*/
+
+      dishesList = items.map((i) => Products.fromJson(i)).toList();
+
+      print("dishesList: " + dishesList.toString());
+
+      return dishesList;
+    } else {
+      throw Exception('Failed to load internet');
+    }
+  }*/
+
+  Future<List<Products>> obtenerPlatillos() async {
+    final response = await http.get('http://10.0.2.2:5000/platillos');
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      dishesList = parsed.map<Products>((json) {
+        return Products.fromJson(json);
+      }).toList();
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
     }
 
     return dishesList;

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,23 +32,29 @@ class RegistrarClientesState extends State<RegistrarClientes>
   int credito = 0;
 
   void addClient() async {
-    var url = "https://pruebasbotanax.000webhostapp.com/Pedidos/addUser.php";
+    var url = "http://10.0.2.2:5000/users";
 
-    final response = await http.post(url, body: {
-      "email": mailController.text,
-      "nombre": nombreController.text,
-      "apellido_paterno": apController.text,
-      "apellido_materno": amController.text,
-      "telefono": telefonoController.text,
-      "estado": estadoController.text,
-      "ciudad": ciudadController.text,
-      "colonia": coloniaController.text,
-      "calle": calleController.text,
-      "numero": numeroController.text,
-      "pass": passController.text,
-      "tipo_usuario": "Cliente",
-      "firebase_token": firebaseToken
-    });
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(<String, String>{
+          "email": mailController.text,
+          "nombre": nombreController.text,
+          "apellido_paterno": apController.text,
+          "apellido_materno": amController.text,
+          "telefono": telefonoController.text,
+          "estado": estadoController.text,
+          "ciudad": ciudadController.text,
+          "colonia": coloniaController.text,
+          "calle": calleController.text,
+          "numero": numeroController.text,
+          "pass": passController.text,
+          "tipo_usuario": "Cliente",
+          "firebase_token": firebaseToken
+        }));
+
+    print(response.statusCode);
 
     if (response.statusCode == 200) respuesta = true;
   }

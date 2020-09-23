@@ -453,34 +453,3 @@ BEGIN
     FROM productos AS p;
 END//
 DELIMITER ;
-
-
-
-
-
-
-    """try:
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        cursor.callproc('spGetImages')
-        rows = cursor.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-
-        images = []
-
-        for i in rows:
-            images.append(i)
-
-        print(images)"""
-
-    image_names = os.listdir('./images')
-    print(image_names)
-    #render_template('carousel.html', image_name = image_names)
-        
-        """return render_template('carousel.html', image = images)
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()"""

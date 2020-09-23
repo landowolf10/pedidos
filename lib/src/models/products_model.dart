@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pedidos/src/pages/carrito.dart';
 import 'package:pedidos/src/pages/login.dart';
 import 'package:http/http.dart' as http;
@@ -56,17 +58,24 @@ class Products {
   }
 
   void sendPush() async {
-    var url = "http://10.0.2.2:5000//push";
+    var url = "http://10.0.2.2:5000/push";
 
-    final response = await http.post(url, body: {
-      "nombre": nombreCliente,
-      "pedido": pedidoFinal,
-      "cantidad": cantidadProducto.toString().replaceAll("[", "").replaceAll("]", ""),
-      "telefono": telefonoCliente,
-      "colonia": coloniaCliente,
-      "calle": calleCliente,
-      "numero": numeroCalle
-    });
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(<String, String>{
+          "cliente": nombreCliente,
+          "pedido": pedidoFinal,
+          "cantidad": cantidadProducto
+              .toString()
+              .replaceAll("[", "")
+              .replaceAll("]", ""),
+          "telefono": telefonoCliente,
+          "colonia": coloniaCliente,
+          "calle": calleCliente,
+          "numero": numeroCalle
+        }));
 
     print("Respuesta push: " + response.body);
   }

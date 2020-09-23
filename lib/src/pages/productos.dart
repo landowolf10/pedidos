@@ -175,19 +175,16 @@ class ProductosState extends State<Productos>
   }
 
   Future<List<Products>> obtenerBebidas() async {
-    var response = await http
-        .get("https://pruebasbotanax.000webhostapp.com/Pedidos/getBebidas.php");
+    final response = await http.get('http://10.0.2.2:5000/bebidas');
 
     if (response.statusCode == 200) {
-      List<dynamic> items = json
-          .decode(utf8.decode(response.bodyBytes))
-          .cast<Map<String, dynamic>>();
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-      drinksList = items.map<Products>((json) {
+      drinksList = parsed.map<Products>((json) {
         return Products.fromJson(json);
       }).toList();
-
-      //print(listOfProducts);
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
     }
 
     return drinksList;

@@ -34,9 +34,6 @@ class _PlatillosState extends State<Platillos> {
                       child: FutureBuilder<List<Products>>(
                         future: prod.obtenerPlatillos(),
                         builder: (context, snapshot) {
-                          print("SNAPSHOT: " + snapshot.hasData.toString());
-                          print("Snapshot Error: " + snapshot.error.toString());
-
                           if (!snapshot.hasData)
                             return CircularProgressIndicator();
 
@@ -52,9 +49,6 @@ class _PlatillosState extends State<Platillos> {
                                     values[index].precioProducto.toString());
 
                                 cantidadProducto.add(1);
-
-                                //print("Lista platillos: " +
-                                //listaPlatillos.toString());
 
                                 return ListTile(
                                   title: Text(values[index].nombreProducto,

@@ -31,10 +31,9 @@ class _BebidasState extends State<Bebidas> {
                   children: <Widget>[
                     SizedBox(
                       height: 500,
-                      child: FutureBuilder(
+                      child: FutureBuilder<List<Products>>(
                         future: prod.obtenerBebidas(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Products>> snapshot) {
+                        builder: (context, snapshot) {
                           if (!snapshot.hasData)
                             return CircularProgressIndicator();
 
@@ -45,7 +44,7 @@ class _BebidasState extends State<Bebidas> {
                               itemBuilder: (context, index) {
                                 listaBebidas.add(values[index].nombreProducto);
 
-                                //precioBebidas.add(values[index].precioProducto);
+                                precioBebidas.add(values[index].precioProducto.toString());
 
                                 cantidadProducto.add(1);
 
@@ -55,11 +54,11 @@ class _BebidasState extends State<Bebidas> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                       )),
-                                  /*subtitle: Text(values[index].precioProducto,
+                                  subtitle: Text(values[index].precioProducto.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
-                                      )),*/
+                                      )),
                                   trailing: Image.network(
                                       values[index].imagenProducto),
                                   onTap: () {
